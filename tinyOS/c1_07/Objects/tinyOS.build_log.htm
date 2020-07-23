@@ -22,28 +22,34 @@ Dialog DLL:      TCM.DLL V1.14.14.0
  
 <h2>Project:</h2>
 C:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c1_07\tinyOS.uvprojx
-Project File Date:  07/19/2020
+Project File Date:  07/23/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Build target 'Target 1'
+Rebuild target 'Target 1'
+assembling startup_ARMCM3.s...
+compiling main.c...
+BessieSource\main.c(54): warning:  #1-D: last line of file ends without a newline
+  }
+BessieSource\main.c: 1 warning, 0 errors
 compiling switch.c...
-BessieSource\switch.c(31): warning:  #1-D: last line of file ends without a newline
+BessieSource\switch.c(32): warning:  #1-D: last line of file ends without a newline
   	
-BessieSource\switch.c(31): warning: A1581W: Added 2 bytes of padding at address 0x1e
+BessieSource\switch.c(32): warning: A1581W: Added 2 bytes of padding at address 0x1e
 BessieSource\switch.c: 1 warning, 0 errors
+compiling system_ARMCM3.c...
 linking...
 Program Size: Code=488 RO-data=224 RW-data=16 ZI-data=8288  
-".\Objects\tinyOS.axf" - 0 Error(s), 2 Warning(s).
+".\Objects\tinyOS.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
                 http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
-                ARM::CMSIS:CORE:4.3.0
+                ARM::Device:Startup:1.0.1
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 4.3.0
    * Component: Startup Version: 1.0.1
+   * Component: CORE Version: 4.3.0
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c1_07\RTE
@@ -52,12 +58,12 @@ Package Vendor: ARM
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:4.3.0
-
    * Component: ARM::Device:Startup:1.0.1
-      Include file:  Device\ARM\ARMCM3\Include\ARMCM3.h
       Source file:   Device\ARM\ARMCM3\Source\ARM\startup_ARMCM3.s
+      Include file:  Device\ARM\ARMCM3\Include\ARMCM3.h
       Source file:   Device\ARM\ARMCM3\Source\system_ARMCM3.c
+
+   * Component: ARM::CMSIS:CORE:4.3.0
 Build Time Elapsed:  00:00:00
 </pre>
 </body>
