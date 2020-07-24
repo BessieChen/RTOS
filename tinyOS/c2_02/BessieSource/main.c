@@ -1,14 +1,6 @@
 #include "tinyOS.h"
 
-#define NVIC_INT_CTRL				0xE000ED04 //一个32位寄存器,可以触发pendSV
-#define NVIC_SYSPRI2				0xE000ED22 //一个8位寄存器,设置pendsv的优先级
 
-#define NVIC_PENDSVSET  		0x10000000 //触发pendSV的值,32bits
-#define NVIC_PENDSV_PRI			0x000000FF //设置pendSV的优先级为最低,8bits
-
-//写寄存器的宏
-#define MEM32(addr)					*((volatile unsigned long*) addr)
-#define MEM8(addr)					*((volatile unsigned char*) addr)
 
 //_BlockType_t,可以存储很多信息,目前只有stackPtr
 typedef struct _BlockType_t
@@ -16,15 +8,6 @@ typedef struct _BlockType_t
 	unsigned long* stackPtr;
 }BlockType_t;
 
-//如何触发pendSV异常,就是从c语言->寄存器触发->pendSV_handler()也就是asm语言写的
-void triggerPendSV(void)
-{
-		//设置为最低优先级,那么pendSV异常的优先级 < 中断优先级 < SysTick优先级
-		MEM8(NVIC_SYSPRI2) = NVIC_PENDSV_PRI;
-	
-		//运行完以下代码,pendSV被触发
-		MEM32(NVIC_INT_CTRL) = NVIC_PENDSVSET;
-}
 
 void delay(int count)
 {
@@ -43,6 +26,13 @@ tTaskStack tTask2Env[1024];
 
 tTask tTask1; //设置一个任务,还记得吗,tTask是一个结构体,里面包含一个tTaskStack*,之后我们对这个tTaskStack*初始化,就可以将tTask1和tTask1Env联系起来了
 tTask tTask2;
+
+//2.2 初始化了任务之后,自然还需要调度任务,所以需要设置current和next task
+tTask* currentTask;
+tTask* nextTask;
+
+//2.2. 并且将两个任务都放进一个array中,易于管理
+tTask* taskTable[2]; //这是一个tTask*的数组,也就是说,数组的每一个元素都是一个tTask*, 也就是每一个元素都存一个tTask类型的地址
 
 void task1Entry(void * param) //设置task1任务需要执行的函数
 {
@@ -102,6 +92,16 @@ void taskInit(tTask* task, void (*func)(void*), void* param, tTaskStack* stack )
 	task->stack = stack; //因为task->stack是tTaskStack*,而且stack也是TaskStack*
 }
 
+//2.2 我们需要调度任务,也就是说,我们要决定哪个任务在下一轮可以使用cpu和资源
+void tTaskSched()
+{
+	if(currentTask == taskTable[0])
+		nextTask = taskTable[1];
+	else
+		nextTask = taskTable[0];
+	tTaskSwitch(); //决定好了下一个任务是什么之后,就要切换了,这个tTaskSwitch()函数里面包含了触发pendSV异常,因为pendSV异常中使用汇编代码,可以控制PC,所以就可以转向新的函数了
+}
+
 
 int main()
 {
@@ -109,13 +109,13 @@ int main()
 	taskInit(&tTask1, task1Entry, (void*)0x11111111, &tTask1Env[1024]); //注意tTask1Env是一个uint32_t的数组,所以不能写成&tTaskEnv,而要写成&tTaskEnv[xx]
 	taskInit(&tTask2, task2Entry, (void*)0x00000000, &tTask2Env[1024]); 
 	
-	for(;;)
-	{
-		flag = 1;
-		delay(100);
-		flag = 0;
-		delay(100);
-		
-		triggerPendSV();//todo:为什么是在for里面触发pendSV异常?
-	}
+	//为我们的taskTable设置
+	taskTable[0] = &tTask1;
+	taskTable[1] = &tTask2;
+	
+	nextTask = taskTable[0]; //因为我们是刚开始,还没有执行的任务,也就是currentTask还没有被初始化,所以这里应该是nextTask被初始化
+	
+	//2.2 开始执行第一个任务: 和一般的任务切换不同的地方(前者:直接把stack里面的东西存到register,想象去柜台的时候没有人,第一个客人直接把东西放桌面 | 后者:当前的人先把register的东西存到stack中,新来的扔把自己stack里面的东西存到register,想象去柜台的时候有人,前面的客人:军铺盖走人,后面的客人:再放东西)
+	tTaskRunFirst(); //这个函数,也要触发pendSV异常, 然后因为pendSV会执行asm代码,可以控制pc,所以可以控制下一个要去的函数
+	//注意: 因为tTaskSwitch();tTaskRunFirst(); 都要用asm代码来管理硬件,所以我们就把这两个函数的定义,放到switch.c中,因为这个c文件中处理有关硬件的部分.但是这个两个函数的声明,需要放到tinyOS.h中
 }

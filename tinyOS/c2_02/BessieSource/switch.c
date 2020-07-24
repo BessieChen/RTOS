@@ -1,3 +1,18 @@
+#include "tinyOS.h" //因为需要给tTaskRunFirst()在switch.c中定义
+#include "ARMCM3.h" //包含了我们之后用到的指令
+
+//这是为了触发pendSV使用的
+#define NVIC_INT_CTRL				0xE000ED04 //一个32位寄存器,可以触发pendSV
+#define NVIC_SYSPRI2				0xE000ED22 //一个8位寄存器,设置pendsv的优先级
+
+#define NVIC_PENDSVSET  		0x10000000 //触发pendSV的值,32bits
+#define NVIC_PENDSV_PRI			0x000000FF //设置pendSV的优先级为最低,8bits
+
+//写寄存器的宏
+#define MEM32(addr)					*((volatile unsigned long*) addr)
+#define MEM8(addr)					*((volatile unsigned char*) addr)
+	
+
 __asm void PendSV_Handler(void) //这里使用的是asm,并且函数名字一定是PendSV_Handler(),pendSV异常发生的时候,就会跳转到这里
 {
 	//我们的目标是:向register里面存入stack的值
@@ -25,8 +40,28 @@ __asm void PendSV_Handler(void) //这里使用的是asm,并且函数名字一定是PendSV_Handl
 	
 	BX LR 								//这里是返回到调用它的父亲函数,也就是返回到triggerPendSV()
 	
+	IMPORT currentTask
+	IMPORT nextTask
 	
 	
-
 }
 	
+void tTaskRunFirst()
+{
+	//将PSP设置成0,因为在等会我们写的asm代码中,我们会判断如果PSP==0就跳转到xxx
+	__set_PSP(0);//__set_PSP()就是ARMCM3.h里面定义的
+	
+	//触发pendSV异常, 从c语言->寄存器触发->pendSV_handler()也就是asm语言写的
+	//设置为最低优先级,那么pendSV异常的优先级 < 中断优先级 < SysTick优先级
+		MEM8(NVIC_SYSPRI2) = NVIC_PENDSV_PRI;
+	
+	//运行完以下代码,pendSV被触发
+	MEM32(NVIC_INT_CTRL) = NVIC_PENDSVSET;
+	
+}
+
+void tTaskSwitch()
+{
+	//运行完以下代码,pendSV被触发
+	MEM32(NVIC_INT_CTRL) = NVIC_PENDSVSET;
+}

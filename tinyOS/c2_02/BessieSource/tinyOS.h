@@ -15,4 +15,12 @@ typedef struct _tTask
 {
 		tTaskStack * stack;
 }tTask;
+
+//其他声明, todo: 不用extern可不可以,因为这里只是声明,没有定义
+extern tTask* currentTask;
+extern tTask* nextTask;
+
+void tTaskRunFirst(void); //todo,如果这里的参数不写void行不行?因为switch.c中的参数就是()
+void tTaskSwitch(void);
+
 #endif
