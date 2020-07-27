@@ -33,6 +33,18 @@ tTask* nextTask;
 //2.2. 并且将两个任务都放进一个array中,易于管理
 tTask* taskTable[2]; //这是一个tTask*的数组,也就是说,数组的每一个元素都是一个tTask*, 也就是每一个元素都存一个tTask类型的地址
 
+//2.2 我们需要调度任务,也就是说,我们要决定哪个任务在下一轮可以使用cpu和资源, 这一个函数需要放到task1Entry()前面,因为task1Entry()调用了它
+void tTaskSched()
+{
+	if(currentTask == taskTable[0])
+		nextTask = taskTable[1]; //这是为了给再次进入pendSV()异常也就是asm代码中,nextTask的更新做铺垫
+	else
+		nextTask = taskTable[0];
+	tTaskSwitch(); //决定好了下一个任务是什么之后,就要切换了,这个tTaskSwitch()函数里面包含了触发pendSV异常,因为pendSV异常中使用汇编代码,可以控制PC,所以就可以转向新的函数了
+}
+
+
+
 void task1Entry(void * param) //设置task1任务需要执行的函数
 {
 	for(;;){
@@ -40,6 +52,8 @@ void task1Entry(void * param) //设置task1任务需要执行的函数
 		delay(100);
 		task1Flag = 1;
 		delay(100);
+		
+		tTaskSched();
 	}
 }
 void task2Entry(void * param) 
@@ -49,6 +63,7 @@ void task2Entry(void * param)
 		delay(100);
 		task2Flag = 1;
 		delay(100);
+		tTaskSched();
 	}
 }
 
@@ -88,17 +103,7 @@ void taskInit(tTask* task, void (*func)(void*), void* param, tTaskStack* stack )
 	*(--stack) = (unsigned long) 0x4;
 	
 	//填满stack之后,我们就把指向栈顶的指针stack,赋值给task的stack成员
-	task->stack = stack; //因为task->stack是tTaskStack*,而且stack也是TaskStack*
-}
-
-//2.2 我们需要调度任务,也就是说,我们要决定哪个任务在下一轮可以使用cpu和资源
-void tTaskSched()
-{
-	if(currentTask == taskTable[0])
-		nextTask = taskTable[1];
-	else
-		nextTask = taskTable[0];
-	tTaskSwitch(); //决定好了下一个任务是什么之后,就要切换了,这个tTaskSwitch()函数里面包含了触发pendSV异常,因为pendSV异常中使用汇编代码,可以控制PC,所以就可以转向新的函数了
+	task->stack = stack; //因为task->stack是tTaskStack*,而且stack也是TaskStack*, 因为这里的task是指针(地址),所以相当于地址->stack
 }
 
 

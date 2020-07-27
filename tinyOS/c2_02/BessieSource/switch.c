@@ -25,11 +25,11 @@ __asm void PendSV_Handler(void) //ÕâÀïÊ¹ÓÃµÄÊÇasm,²¢ÇÒº¯ÊýÃû×ÖÒ»¶¨ÊÇPendSV_Handl
 	//½ÓÏÂÀ´ÊÇ¾üÆÌ¸Ç×ßÈË
 	STMDB R0!, {R4-R11}		//ÒòÎªRO¾ÍÖ±½ÓÖ¸ÏòÁËÐèÒª¹ÜÆÌ¸Ç×ßÈËµÄtaskµÄstack,ËùÒÔÖ±½Ó½«R4-T11Ñ¹ÈëÆäÖÐ, ×îºór0³ÉÎªÁËÐÂµÄÕ»¶¥µØÖ·
 	
+	//¾íÆÌ¸Ç×ßÈËµÄÊ±ºò,¾ÍÐèÒª±£´æÐÂµÄstackÖµÁË,(¶Ô±ÈÏÂÃæµÄ·Å¶«Î÷Ð¶»õµÄÊ±ºò²»ÐèÒª±£´æÐÂµÄstackÕ»¶¥Ö¸Õë)
+	//±£´æµÄÐÂstackÕ»¶¥Ö¸ÕëÊÇ, task->stack = ÐÂstackÕ»¶¥Ö¸Õë
 	LDR R1, =currentTask  //R1´æµÄ×îºóÊÇcurrenttaskµÄµØÖ·
 	LDR R1, [R1]					//R1×îºó´æµÄÊÇ, currenttaskµÄÄÚÈÝ(task BµÄµØÖ·)
-	LDR R1, [R1]					//R1×îºó´æµÄÊÇ, task BµÄÄÚÈÝ(stack BµÄµØÖ·)
-	
-	STR R0, [R1]					//×îºóÍøstack BÖÐ´æÈëÐÂµØÖ·(R0µÄÖµ)
+	STR R0, [R1]					//[r1]ÊÇtask BµÄÄÚÈÝ,Ò²¾ÍÊÇstackµÄÕ»¶¥Ö¸Õë,×îºóÍøstack BÖÐ´æÈëÐÂÕ»¶¥Ö¸Õë·(R0µÄÖµ), »¹¼ÇµÃÂð,stack BÖ®Ç°´æµÄÊÇ&taskStack[1024], ¼ûtask->stack = stack, ¶østack¾ÍÊÇ&taskStack[1024]
   
 	
 pendSV_store_only				//½ÓÏÂÀ´ÊÇÐ¶ÏÂ°ü¹ü
@@ -40,10 +40,12 @@ pendSV_store_only				//½ÓÏÂÀ´ÊÇÐ¶ÏÂ°ü¹ü
 	STR R0, [R1]					//[R1]:È¥µ½Õâ¸öcurrentTaskµÄÄÚÈÝ(task BµÄµØÖ·). ½«[r1]¸Ä³Étask AµÄµØÖ·: ÓÚÊÇcurrentTaskµÄÄÚÈÝ¾Í³ÉÁËtask AµÄµØÖ·,Ïàµ±ÓÚcurrentTask = nextTask	
 	//ÔÚÕâ¸ö½ÚµãÓ¦¸ÃÑéÖ¤currentTaskµÄÄÚÈÝ==nextTaskµÄÄÚÈÝ
 	
-	LDR R0, [R0]					//´ËÊ±R0´æµÄÊÇtask AµÄÄÚÈÝ,Õâ¸öÄÚÈÝÊÇstack AµÄµØÖ·
-	LDMIA R0!, {R4-R11}		//È¥Õâ¸östack AµÄµØ·½,½«stack AÀïÃæµÄÔªËØ,pop³öÀ´,·Ö±ð¸øR4-R11(ÏÈ¸øR4,×îºó¸øR11)
+	LDR R0, [R0]					//´ËÊ±R0´æµÄÊÇtask AµÄÄÚÈÝ,Õâ¸öÄÚÈÝÊÇstack AµÄÕ»¶¥Ö¸Õë
+	LDMIA R0!, {R4-R11}		//È¥Õâ¸östack AÕ»¶¥Ö¸ÕëµÄµØ·½,½«stack AÀïÃæµÄÔªËØ,pop³öÀ´,·Ö±ð¸øR4-R11(ÏÈ¸øR4,×îºó¸øR11)
 
-	STR R0, [R1]					//¼û57ÐÐ,R1´æµÄ»¹ÊÇtask BµÄµØÖ·,ËùÒÔÎÒÃÇ½«R0µÄÄÚÈÝ,Ò²¾ÍÊÇÐÂµØÖ·,·ÅÈëR1Ö¸ÏòµÄµØ·½,ËùÒÔÖ®ºótask BµÄÄÚÈÝ¾ÍÊÇÐÂµÄstack BµÄµØÖ·
+	//ÏÂÃæÕâÁ½²¿ÆäÊµ²»ÐèÒª,ÎªÊ²Ã´: ÎÒ±¾ÒâÊÇÏë´æR0,¿ÉÊÇÎÒ·¢ÏÖR0ºóÃæ¸³Öµ¸øÁËpsp,²¢ÇÒÖ®ºóÐèÒª¾íÆÕÌ©×ßÈËµÄÊ±ºò,ÊÇ´Ópsp¿ªÊ¼µÄµØ·½·ÅÈëstackµÄ,ËùÒÔÄÇ¸öÊ±ºò·ÅÈëstackµÄÎ»ÖÃ,¾ÍÊÇÎÒ±¾ÒâÏë´æR0µÄÎ»ÖÃ
+	//LDR R1, [R1]					////¼û57ÐÐ,R1´æµÄ»¹ÊÇtask BµÄµØÖ·, ËùÒÔÖ´ÐÐÍêÕâÒ»ÐÐ,R1´æµÄÊÇtaskBµÄÄÚÈÝ,Ò²¾ÍÊÇstack BµÄµØÖ·
+	//STR R0, [R1]					//ÕâÀï[R1]ÒâË¼ÊÇstackµÄÄÚÈÝ,stackµÄÄÚÈÝ¾ÍÊÇÒ»¸öÖ¸Õë
 
 	MSR PSP, R0						//×¢ÒâÕâÀïÊÇMSR: register -> PSP
 	ORR LR, LR, #0x04			//ÕâÒ»¾ä±íÊ¾µÄÊÇ,Ö®ºóÎÒÃÇ½«Ê¹ÓÃPSPÕâ¸öÕ»Ö¸Õë, ÒòÎªPSPÖ¸ÏòµÄÊÇR0,ËùÒÔ,ÎÒÃÇ¿ÉÒÔ´ÓR0¿ªÊ¼pop,Ò²¾ÍÊÇ½«stack BÖÐµÄÊ£ÓàÊý¾Ý´æµ½R13,R14µÈ
