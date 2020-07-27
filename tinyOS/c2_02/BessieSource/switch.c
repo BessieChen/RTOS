@@ -15,37 +15,41 @@
 
 __asm void PendSV_Handler(void) //这里使用的是asm,并且函数名字一定是PendSV_Handler(),pendSV异常发生的时候,就会跳转到这里
 {
-	//我们的目标是:向register里面存入stack的值
-	//所以,先找到stack的地址.
-	//方法: 一个blockptr可以指向一大块的block的首地址(包含了stackptr等info),block.stackprt又可以指向一大块的stack的首地址
-	
-	IMPORT blockPtr
-	LDR R0, =blockPtr	//将blockPtr的地址,赋值给r0.等于号相当于&
-	LDR R0, [R0] 			//[r0]就是blockPtr里面的数据,这个值就是block的地址
-	LDR R0, [R0]			//[r0]这里是block里面的数据,因为block是一个结构体,里面装了block.stackPtr,所以block的值就相当于是block.stackPtr的值, 而stackPtr的值其实是stack的地址(回忆block.stackPtr = &stack[1024]), 所以[r0]就是stack的第1024个元素的地址
-	
-	STMDB R0!, {R4-R11}		//将r4-r11的值,赋给r0指向的位置, STMDB是store给mem的意思, 会先把R0的值给R11,之后给R10,... 所以最后的栈顶是R4
-												//在这之后,stack就有了register里面的数据
-												//注意:R0应该是地址, 并且,我发现新的R0比旧的R0小了32,R4-R11一共8个寄存器,刚好一个寄存器存了4个字节
-	
-												//因为stack存了新的元素,所以stack的栈顶地址需要改变(新的地址是更小的),r0存了这个地址,所以接下来把r0的值,赋给block.stackPtr
-	LDR R1, =blockPtr			//这里和line7的思路一样,将blockPtr的地址,赋值给r1
-	LDR R1, [R1]					//[R1]就是blockPtr里面的数据,这个值就是block的地址
-	STR R0, [R1]					//[R1]就是block里面的数据,因为block是一个结构体,里面装了block.stackPtr,现在把r0的值,赋给block.stackPtr
-
-	ADD R4, R4, #1				//这里对register里面的值修改
-	ADD R5, R5, #1
-	
-	LDMIA R0!, {R4-R11}		//这里是将stack里面存的r4-r11的值,有赋值给r4-r11,所以line21-22对register的修改就无效了
-	
-	BX LR 								//这里是返回到调用它的父亲函数,也就是返回到triggerPendSV()
-	
+	//我认为,应该在刚进入这个函数的时候,已经是将xPSP,R11等寄存器里面的元素,存到PSP指向的stack中了, 接下来就是我们手动接管PSP,并且往stack中存入寄存器R4-R11的值 //如果PSP==0,我觉得可能就不会把xPSP的东西,存到PSP指向的stack中了
 	IMPORT currentTask
 	IMPORT nextTask
 	
+	MRS R0, PSP						//将psp的值,存入r0 //注意这里是MRS: PSP -> register
+	CBZ R0, pendSV_store_only //判断r0 != 0?
 	
+	//接下来是军铺盖走人
+	STMDB R0!, {R4-R11}		//因为RO就直接指向了需要管铺盖走人的task的stack,所以直接将R4-T11压入其中, 最后r0成为了新的栈顶地址
+	
+	LDR R1, =currentTask  //R1存的最后是currenttask的地址
+	LDR R1, [R1]					//R1最后存的是, currenttask的内容(task B的地址)
+	LDR R1, [R1]					//R1最后存的是, task B的内容(stack B的地址)
+	
+	STR R0, [R1]					//最后网stack B中存入新地址(R0的值)
+  
+	
+pendSV_store_only				//接下来是卸下包裹
+	LDR R0, =nextTask			
+	LDR R0, [R0]					//执行完,R0存的是nextTask的内容(task A的地址)
+	
+	LDR R1, =currentTask	//R1存的是currentTask的地址
+	STR R0, [R1]					//[R1]:去到这个currentTask的内容(task B的地址). 将[r1]改成task A的地址: 于是currentTask的内容就成了task A的地址,相当于currentTask = nextTask	
+	//在这个节点应该验证currentTask的内容==nextTask的内容
+	
+	LDR R0, [R0]					//此时R0存的是task A的内容,这个内容是stack A的地址
+	LDMIA R0!, {R4-R11}		//去这个stack A的地方,将stack A里面的元素,pop出来,分别给R4-R11(先给R4,最后给R11)
+
+	STR R0, [R1]					//见57行,R1存的还是task B的地址,所以我们将R0的内容,也就是新地址,放入R1指向的地方,所以之后task B的内容就是新的stack B的地址
+
+	MSR PSP, R0						//注意这里是MSR: register -> PSP
+	ORR LR, LR, #0x04			//这一句表示的是,之后我们将使用PSP这个栈指针, 因为PSP指向的是R0,所以,我们可以从R0开始pop,也就是将stack B中的剩余数据存到R13,R14等
+	BX LR
 }
-	
+
 void tTaskRunFirst()
 {
 	//将PSP设置成0,因为在等会我们写的asm代码中,我们会判断如果PSP==0就跳转到xxx
@@ -53,7 +57,7 @@ void tTaskRunFirst()
 	
 	//触发pendSV异常, 从c语言->寄存器触发->pendSV_handler()也就是asm语言写的
 	//设置为最低优先级,那么pendSV异常的优先级 < 中断优先级 < SysTick优先级
-		MEM8(NVIC_SYSPRI2) = NVIC_PENDSV_PRI;
+	MEM8(NVIC_SYSPRI2) = NVIC_PENDSV_PRI;
 	
 	//运行完以下代码,pendSV被触发
 	MEM32(NVIC_INT_CTRL) = NVIC_PENDSVSET;

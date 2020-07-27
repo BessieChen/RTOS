@@ -20,6 +20,7 @@ typedef struct _tTask
 extern tTask* currentTask;
 extern tTask* nextTask;
 
+//以下这两个函数都是和cpu相关的,还记得吗,都触发了pendSV异常,然后pendSV使用asm写的.这两个函数的定义在switch.c中
 void tTaskRunFirst(void); //todo,如果这里的参数不写void行不行?因为switch.c中的参数就是()
 void tTaskSwitch(void);
 

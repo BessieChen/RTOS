@@ -1,7 +1,5 @@
 #include "tinyOS.h"
 
-
-
 //_BlockType_t,可以存储很多信息,目前只有stackPtr
 typedef struct _BlockType_t
 {
@@ -20,6 +18,7 @@ void delay(int count)
 //2.2	每个task里面都有需要反转的flag
 int task1Flag;
 int task2Flag;
+
 //2.1 设置完了tinyOS.h后,我们就设置两个stack,并且设置两个task, 再设置两个task执行的函数
 tTaskStack tTask1Env[1024];		//因为一个tTaskStack只是一个uint32_t,只能代表stack里面的一个元素.所以我们设置成数组的形式
 tTaskStack tTask2Env[1024];
@@ -118,4 +117,6 @@ int main()
 	//2.2 开始执行第一个任务: 和一般的任务切换不同的地方(前者:直接把stack里面的东西存到register,想象去柜台的时候没有人,第一个客人直接把东西放桌面 | 后者:当前的人先把register的东西存到stack中,新来的扔把自己stack里面的东西存到register,想象去柜台的时候有人,前面的客人:军铺盖走人,后面的客人:再放东西)
 	tTaskRunFirst(); //这个函数,也要触发pendSV异常, 然后因为pendSV会执行asm代码,可以控制pc,所以可以控制下一个要去的函数
 	//注意: 因为tTaskSwitch();tTaskRunFirst(); 都要用asm代码来管理硬件,所以我们就把这两个函数的定义,放到switch.c中,因为这个c文件中处理有关硬件的部分.但是这个两个函数的声明,需要放到tinyOS.h中
+	
+	return 0; //注意,这里不会执行到return 0,因为tTaskRunFirst()里面就会一直走到for loop
 }
