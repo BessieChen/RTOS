@@ -1,6 +1,19 @@
 #include "tinyOS.h"
 #include "ARMCM3.h" //包含了SysTick
 
+//3.1 设置临界区
+uint32_t tTaskEnterCritical(void)
+{
+	uint32_t primask = __get_PRIMASK(); //这是"ARMCM3.h"的
+	__disable_irq(); //"ARMCM3.h"的,是关闭中断
+	return primask; //返回中断使能
+}
+
+//3.1 退出临界区
+void tTaskExitCritical(uint32_t primask)
+{
+	__set_PRIMASK(primask);
+}
 //_BlockType_t,可以存储很多信息,目前只有stackPtr
 typedef struct _BlockType_t
 {
@@ -15,6 +28,10 @@ void delay(int count)
 		count--;
 	}
 }
+
+
+//3.1 添加任务和中断都能访问的全局变量
+int tickCounter;
 
 //2.2	每个task里面都有需要反转的flag
 int task1Flag;
@@ -111,6 +128,10 @@ void tTaskSysTickHandler()
 		}
 	}
 	
+	//3.1 注意,这里不需要进入临界区,因为
+	//3.1 在这里,中断开始访问全局变量:
+	tickCounter++;
+	
 	//因为上面递减了delayTicks,所以有可能有一个以上的任务延迟完毕,可以被开启了. 以下的tTaskSched()里面就可以判断是否delayTicks==0,是否可以被开启
 	tTaskSched();
 }
@@ -170,7 +191,7 @@ void task1Entry(void * param) //设置task1任务需要执行的函数
 	
 	//在这里添systick的初始化函数,因为systick的初始化函数tSetSysTickPeriod()中,有使能计数器的中断,为了避免中断引发的混乱,就将systick的初始化加在这里
 	//初始化systick,设置为10毫秒(不过真实的是执行了1.4秒,神奇而且不管我改哪里,感觉都没有变化),并且他显示的1s,我感觉像是过了很长时间!
-	tSetSysTickPeriod(10);//因为之后就都在for loop里面了,这里就只是运行了一次
+	tSetSysTickPeriod(1);//因为之后就都在for loop里面了,这里就只是运行了一次
 	/*
 	其他原因为什么在这里初始化systick:
 	1. 因为如果在其他地方初始化systick,初始化之后,systick就立即开始工作了,所以第一次发生中断的时候,可能就会调用tTaskSched,但是李曼要判断currentTask是不是==0,因为我们刚开始currentTask不是
@@ -187,12 +208,28 @@ void task1Entry(void * param) //设置task1任务需要执行的函数
 	*/
 	
 	for(;;){
+		
+		//3.1 进入临界区
+		uint32_t status = tTaskEnterCritical();
+		//3.1 以下是访问全局变量
+		uint32_t temp = tickCounter;
+		
+		//设置一个for loop,也就是耽误时间,让中断在这个中间发生
+		uint32_t i;
+		for(i = 0; i < 0xFFFFF; i++){}
+			
+		tickCounter = temp + 1;
+		
+		//3.1 访问结束
+		//3.1 离开临界区
+		tTaskExitCritical(status);
+		
 		task1Flag = 0;
-		//delay(100);
-		tTaskDelay(1);
+		delay(100);
+		//tTaskDelay(1);
 		task1Flag = 1;
-		//delay(100);
-		tTaskDelay(1);
+		delay(100);
+		//tTaskDelay(1);
 		
 		//tTaskSched();//是systick调度了,这里就不需要了
 	}
@@ -201,11 +238,11 @@ void task2Entry(void * param)
 {
 	for(;;){
 		task2Flag = 0;
-		//delay(100);
-		tTaskDelay(1);
+		delay(100);
+		//tTaskDelay(1);
 		task2Flag = 1;
-		//delay(100);
-		tTaskDelay(1);
+		delay(100);
+		//tTaskDelay(1);
 		
 		//tTaskSched();//是systick调度了,这里就不需要了
 	}
