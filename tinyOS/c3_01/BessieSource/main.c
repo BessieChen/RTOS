@@ -1,6 +1,31 @@
 #include "tinyOS.h"
 #include "ARMCM3.h" //包含了SysTick
 
+//3.1 添加任务和中断都能访问的全局变量
+int tickCounter;
+
+//2.2	每个task里面都有需要反转的flag
+int task1Flag;
+int task2Flag;
+
+//2.1 设置完了tinyOS.h后,我们就设置两个stack,并且设置两个task, 再设置两个task执行的函数
+tTaskStack tTask1Env[1024];		//因为一个tTaskStack只是一个uint32_t,只能代表stack里面的一个元素.所以我们设置成数组的形式
+tTaskStack tTask2Env[1024];
+tTaskStack idleTaskEnv[1024]; //2.4
+
+tTask tTask1; //设置一个任务,还记得吗,tTask是一个结构体,里面包含一个tTaskStack*,之后我们对这个tTaskStack*初始化,就可以将tTask1和tTask1Env联系起来了
+tTask tTask2;
+tTask tTaskIdle; //2.4
+
+//2.2 初始化了任务之后,自然还需要调度任务,所以需要设置current和next task
+tTask* currentTask;
+tTask* nextTask;
+tTask* idleTask; //2.4
+
+//2.2. 并且将两个任务都放进一个array中,易于管理
+tTask* taskTable[2]; //这是一个tTask*的数组,也就是说,数组的每一个元素都是一个tTask*, 也就是每一个元素都存一个tTask类型的地址
+
+
 //3.1 设置临界区
 uint32_t tTaskEnterCritical(void)
 {
@@ -30,17 +55,10 @@ void delay(int count)
 }
 
 
-//3.1 添加任务和中断都能访问的全局变量
-int tickCounter;
 
-//2.2	每个task里面都有需要反转的flag
-int task1Flag;
-int task2Flag;
 
-//2.2. 并且将两个任务都放进一个array中,易于管理
-tTask* taskTable[2]; //这是一个tTask*的数组,也就是说,数组的每一个元素都是一个tTask*, 也就是每一个元素都存一个tTask类型的地址
-
-//2.2 我们需要调度任务,也就是说,我们要决定哪个任务在下一轮可以使用cpu和资源, 这一个函数需要放到task1Entry()前面,因为task1Entry()调用了它
+//3.1 记得要对这个函数进行修改, 就是整个函数都要用临界区保护
+//因为这个tTaskSched()函数可以被任务调用,也可以被中断调用. 我们要保护的是全局变量: taskTable 还有nextTask等
 void tTaskSched()
 {
 	//2.4以下的都要删掉
@@ -67,6 +85,11 @@ void tTaskSched()
 		3. 如果当前任务是task2
 			1.2.3同上
 	*/
+	//
+	
+	//3.1 首先是加上临界区, 关闭中断
+	uint32_t status = tTaskEnterCritical();
+	//之后记得在每一个可能的出口, 例如return之前, 退出临界区
 	
 	if(currentTask == idleTask) //注意idelTask是指针, tTask* idleTask = &tTaskIdle; //extern tTask* idleTask; //需要在tinyOS.h里写上这一句,否则main.c会报错, 要么就是全局变量都写在这个函数前面
 	{
@@ -80,6 +103,8 @@ void tTaskSched()
 		}
 		else //也就是两个task的dT != 0, 他俩都不要cpu
 		{
+			//3.1 可能的出口
+			tTaskExitCritical(status);
 			return; //所以nextTask依旧是currentTask,和之前一样
 		}
 	}
@@ -95,6 +120,8 @@ void tTaskSched()
 		}
 		else //说明task2的dT != 0, 但是task1的dT == 0, 所以nextTask依旧是task1
 		{
+			//3.1 可能的出口
+			tTaskExitCritical(status);
 			return;
 		}
 	}
@@ -110,15 +137,27 @@ void tTaskSched()
 		}
 		else //说明task1的dT != 0, 但是task2的dT == 0, 所以nextTask依旧是task2
 		{
+			//3.1 可能的出口
+			tTaskExitCritical(status);
 			return;
 		}
 	}
 	tTaskSwitch();
+	
+	//3.1 可能的出口
+	tTaskExitCritical(status);
+	//思考: 为什么是加载tTaskSwitch(): tTaskSwitch需要pendSV异常, 关闭中断的确不能执行pendSV,但是到这一句开启中断的时候,就会执行pendSV了,如果有的话
+	//具体内容参见:
+	
+	
 }
 
 //2.4 因为现在每个任务都有一个计数器delayTicks, 现在设计一个函数,能够递减delayTicks(相当于软延迟)
+//3.1 记得要对这个函数进行修改, 就是整个函数都要用临界区保护, 因为taskTable需要被保护
 void tTaskSysTickHandler()
 {
+	//3.1 因为taskTable需要被保护, 设置临界区, 关闭中断
+	uint32_t status = tTaskEnterCritical();
 	int i;
 	for(i = 0; i < 2; i++)
 	{
@@ -128,10 +167,13 @@ void tTaskSysTickHandler()
 		}
 	}
 	
-	//3.1 注意,这里不需要进入临界区,因为
+	tTaskExitCritical(status);
+	
+	//3.1 注意,这里不需要进入临界区,因为这里假设:没有更高优先级的中断去访问这个tickCount;
 	//3.1 在这里,中断开始访问全局变量:
 	tickCounter++;
 	
+	//3.1
 	//因为上面递减了delayTicks,所以有可能有一个以上的任务延迟完毕,可以被开启了. 以下的tTaskSched()里面就可以判断是否delayTicks==0,是否可以被开启
 	tTaskSched();
 }
@@ -150,9 +192,16 @@ void SysTick_Handler()
 }
 
 //2.4 实现延时函数, 因为这个函数肯定是currentTask调用的,所以里面直接写currentTask->xxx
+//3.1 记得要对这个函数进行修改, 就是整个函数都要用临界区保护, 因为currentTask需要被保护
 void tTaskDelay(uint32_t delay)
 {
+	//3.1 设置临界区,关闭中断
+	uint32_t status = tTaskEnterCritical();
+	
 	currentTask->delayTicks = delay; //也就是为currentTask设置需要延时多久
+	
+	tTaskExitCritical(status); //注意在这里开启中断,而不是在tTaskSched()之后,而是在它之前加这一句, 因为tTaskSched()也会设置临界区
+	
 	tTaskSched();//所以现在currentTask是放弃了cpu,现在由tTaskSched()来判断还有谁是需要cpu的
 }
 
@@ -255,22 +304,6 @@ void idleTaskEntry(void* param)
 	for(;;)
 	{}
 }
-
-
-//2.1 设置完了tinyOS.h后,我们就设置两个stack,并且设置两个task, 再设置两个task执行的函数
-tTaskStack tTask1Env[1024];		//因为一个tTaskStack只是一个uint32_t,只能代表stack里面的一个元素.所以我们设置成数组的形式
-tTaskStack tTask2Env[1024];
-tTaskStack idleTaskEnv[1024]; //2.4
-
-tTask tTask1; //设置一个任务,还记得吗,tTask是一个结构体,里面包含一个tTaskStack*,之后我们对这个tTaskStack*初始化,就可以将tTask1和tTask1Env联系起来了
-tTask tTask2;
-tTask tTaskIdle; //2.4
-
-//2.2 初始化了任务之后,自然还需要调度任务,所以需要设置current和next task
-tTask* currentTask;
-tTask* nextTask;
-tTask* idleTask; //2.4
-
 
 
 //设置初始化任务的函数: 初始化stack: 将tTask1和tTask1Env联系起来, 初始化task函数

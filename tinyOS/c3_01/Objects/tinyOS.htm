@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\tinyOS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\tinyOS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Tue Jul 28 20:08:37 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Wed Jul 29 18:24:05 2020
 <BR><P>
-<H3>Maximum Stack Usage =         24 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =         32 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 SysTick_Handler &rArr; tTaskSysTickHandler &rArr; tTaskSched
 <P>
@@ -372,7 +372,7 @@ Global Symbols
 <P><STRONG><a name="[6f]"></a>__use_no_semihosting_swi</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
 
 <P><STRONG><a name="[c]"></a>SysTick_Handler</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, main.o(i.SysTick_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = SysTick_Handler &rArr; tTaskSysTickHandler &rArr; tTaskSched
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = SysTick_Handler &rArr; tTaskSysTickHandler &rArr; tTaskSched
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSysTickHandler
 </UL>
@@ -400,40 +400,48 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[42]"></a>tSetSysTickPeriod</STRONG> (Thumb, 74 bytes, Stack size 12 bytes, main.o(i.tSetSysTickPeriod))
+<P><STRONG><a name="[44]"></a>tSetSysTickPeriod</STRONG> (Thumb, 74 bytes, Stack size 12 bytes, main.o(i.tSetSysTickPeriod))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = tSetSysTickPeriod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1Entry
 </UL>
 
-<P><STRONG><a name="[43]"></a>tTaskEnterCritical</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(i.tTaskEnterCritical))
+<P><STRONG><a name="[41]"></a>tTaskEnterCritical</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(i.tTaskEnterCritical))
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1Entry
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSysTickHandler
+<LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSched
 </UL>
 
-<P><STRONG><a name="[44]"></a>tTaskExitCritical</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(i.tTaskExitCritical))
+<P><STRONG><a name="[42]"></a>tTaskExitCritical</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(i.tTaskExitCritical))
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1Entry
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSysTickHandler
+<LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSched
 </UL>
 
 <P><STRONG><a name="[3f]"></a>tTaskRunFirst</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, switch.o(i.tTaskRunFirst))
 <BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[40]"></a>tTaskSched</STRONG> (Thumb, 148 bytes, Stack size 8 bytes, main.o(i.tTaskSched))
+<P><STRONG><a name="[40]"></a>tTaskSched</STRONG> (Thumb, 178 bytes, Stack size 8 bytes, main.o(i.tTaskSched))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = tTaskSched
 </UL>
-<BR>[Calls]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSwitch
+<BR>[Calls]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSwitch
+<LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskExitCritical
+<LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskEnterCritical
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSysTickHandler
 </UL>
 
-<P><STRONG><a name="[41]"></a>tTaskSwitch</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, switch.o(i.tTaskSwitch))
+<P><STRONG><a name="[43]"></a>tTaskSwitch</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, switch.o(i.tTaskSwitch))
 <BR><BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSched
 </UL>
 
-<P><STRONG><a name="[3d]"></a>tTaskSysTickHandler</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, main.o(i.tTaskSysTickHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = tTaskSysTickHandler &rArr; tTaskSched
+<P><STRONG><a name="[3d]"></a>tTaskSysTickHandler</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, main.o(i.tTaskSysTickHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = tTaskSysTickHandler &rArr; tTaskSched
 </UL>
 <BR>[Calls]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskSched
+<LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskExitCritical
+<LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskEnterCritical
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
@@ -441,9 +449,9 @@ Global Symbols
 <P><STRONG><a name="[26]"></a>task1Entry</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, main.o(i.task1Entry))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = task1Entry &rArr; tSetSysTickPeriod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskExitCritical
-<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskEnterCritical
-<LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tSetSysTickPeriod
+<BR>[Calls]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskExitCritical
+<LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tTaskEnterCritical
+<LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tSetSysTickPeriod
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)

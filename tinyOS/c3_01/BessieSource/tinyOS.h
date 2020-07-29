@@ -17,7 +17,7 @@ typedef struct _tTask
 		uint32_t delayTicks;//2.4添加软延迟的计数器
 }tTask;
 
-//其他声明, todo: 不用extern可不可以,因为这里只是声明,没有定义
+//其他声明, todo: 不用extern可不可以,因为这里只是声明,没有定义. 这里没有加其他stack的原因是,我们有了task的指针,就可以去task,就可以去stack
 extern tTask* currentTask;
 extern tTask* nextTask;
 extern tTask* idleTask; //需要在这里写上这一句,否则main.c会报错
@@ -30,4 +30,5 @@ void tTaskExitCritical(uint32_t param);
 void tTaskRunFirst(void); //todo,如果这里的参数不写void行不行?因为switch.c中的参数就是()
 void tTaskSwitch(void);
 
+//我发现像是tTaskSched(), systick, 还有task1Entry 的函数没有加到这里
 #endif
