@@ -1,0 +1,35 @@
+Dependencies for Project 'tinyOS', Target 'Target 1': (DO NOT MODIFY !)
+F (.\BessieSource\main.c)(0x5F21CDB4)(-c --cpu Cortex-M3 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-IC:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c3_04\RTE-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="521" -D_RTE_ -DARMCM3-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (BessieSource\tinyOS.h)(0x5F21B74B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574E3E26)
+I (BessieSource\tLib.h)(0x5F21B6A2)
+I (BessieSource\tConfig.h)(0x5F21ABC8)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
+F (.\BessieSource\switch.c)(0x5F1F1E2C)(-c --cpu Cortex-M3 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-IC:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c3_04\RTE-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="521" -D_RTE_ -DARMCM3-o .\objects\switch.o --omf_browse .\objects\switch.crf --depend .\objects\switch.d)
+I (BessieSource\tinyOS.h)(0x5F21B74B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574E3E26)
+I (BessieSource\tLib.h)(0x5F21B6A2)
+I (BessieSource\tConfig.h)(0x5F21ABC8)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
+F (.\BessieSource\tBitmap.c)(0x5F21A08B)(-c --cpu Cortex-M3 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-IC:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c3_04\RTE-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="521" -D_RTE_ -DARMCM3-o .\objects\tbitmap.o --omf_browse .\objects\tbitmap.crf --depend .\objects\tbitmap.d)
+I (BessieSource\tLib.h)(0x5F21B6A2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574E3E26)
+F (RTE\Device\ARMCM3\startup_ARMCM3.s)(0x50B2CC4C)(--cpu Cortex-M3 --li --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c3_04\RTE-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include--pd "__UVISION_VERSION SETA 521" --pd "_RTE_ SETA 1" --pd "ARMCM3 SETA 1"--list .\listings\startup_armcm3.lst --xref -o .\objects\startup_armcm3.o --depend .\objects\startup_armcm3.d)
+F (RTE\Device\ARMCM3\system_ARMCM3.c)(0x5F1FFB99)(-c --cpu Cortex-M3 -D__EVAL --li -g -O0 --apcs=interwork --split_sections-IC:\Users\86188\Documents\JOBs\1004_OS\RTOS\tinyOS\c3_04\RTE-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="521" -D_RTE_ -DARMCM3-o .\objects\system_armcm3.o --omf_browse .\objects\system_armcm3.crf --depend .\objects\system_armcm3.d)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574E3E26)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (C:\Users\86188\AppData\Local\Arm\Packs\forKeil521\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
