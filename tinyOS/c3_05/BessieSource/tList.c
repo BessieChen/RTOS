@@ -31,6 +31,8 @@ uint32_t tListCount(tList* list)
 //3.5 增:
 void tListAddFirst(tList* list, tNode* node)
 {
+	//byb
+	/*
 	if(list->nodeCount == 0)
 	{
 		//node是一个地址, 将这个地址存到headNode.pre和next中
@@ -51,9 +53,21 @@ void tListAddFirst(tList* list, tNode* node)
 		list->headNode.nextNode = node;
 	}
 	list->nodeCount++;
+	*/
+	
+	//by 01
+	node->preNode = list->headNode.nextNode->preNode;
+	node->nextNode = list->headNode.nextNode;
+	
+	list->headNode.nextNode->preNode = node;
+	list->headNode.nextNode = node;
+	
+	list->nodeCount++;
 }
 void tListAddLast(tList* list, tNode* node)
 {
+	//byb
+	/*
 	if(list->nodeCount == 0)
 	{
 		list->headNode.preNode = node;
@@ -71,9 +85,21 @@ void tListAddLast(tList* list, tNode* node)
 		list->headNode.preNode = node;
 	}
 	list->nodeCount++;
+	*/
+	
+	//by 01
+	node->nextNode = &(list->headNode);
+	node->preNode = list->headNode.preNode;
+	
+	list->headNode.preNode->nextNode = node;
+	list->headNode.preNode = node;
+	
+	list->nodeCount++;
 }
 void tListInsertAfter(tList* list, tNode* nodeBefore, tNode* nodeToInsert)
 {
+	//byb
+	/*
 	//特例: 在list->headNode右侧加入node, 也就是nodeBefore就是我们list->headNode的地址, 就需要特殊处理:
 	if(nodeBefore == &(list->headNode))
 	{
@@ -97,9 +123,20 @@ void tListInsertAfter(tList* list, tNode* nodeBefore, tNode* nodeToInsert)
 			list->nodeCount++;
 		}
 	}
+	*/
+	
+	//by 01
+	nodeToInsert->preNode = nodeBefore;
+	nodeToInsert->nextNode = nodeBefore->nextNode;
+	
+	nodeBefore->nextNode->preNode = nodeToInsert;
+	nodeBefore->nextNode = nodeToInsert;
+	
+	list->nodeCount++;
 }
 void tListInsertBefore(tList* list, tNode* nodeAfter, tNode* nodeToInsert)//by bessie
 {
+	tNode* n;
 	//特例: 在list->headNode左侧加入node, 也就是nodeAfter就是我们list->headNode的地址, 就需要特殊处理:
 	if(nodeAfter == &(list->headNode))
 	{
@@ -108,7 +145,6 @@ void tListInsertBefore(tList* list, tNode* nodeAfter, tNode* nodeToInsert)//by b
 	}
 	
 	//除了特例之外的: 也就是在除了在list->headNode左侧加入node
-	tNode* n;
 	//注意, 因为是在前面插入,所以我们只需要找到nodeAfter前面的那个node, 所以判断是if(n->nextNode == nodeAfter)
 	for(n = &(list->headNode); n != list->headNode.preNode; n = n->nextNode)
 	{
@@ -127,6 +163,8 @@ void tListInsertBefore(tList* list, tNode* nodeAfter, tNode* nodeToInsert)//by b
 //3.5 删:
 void tListRemoveAll(tList* list)
 {
+	//by bessie
+	/*
 	tNode* n;
 	for(n = list->headNode.nextNode; n != &(list->headNode); n = n->nextNode)
 	{
@@ -141,9 +179,31 @@ void tListRemoveAll(tList* list)
 	//到此, 除了list->headNode之外,所有的节点都被删了, 同时list->headNode的pre和next在这个时候也已经指向了自己, 即在for循环中已经实现了
 	
 	list->nodeCount = 0;
+	*/
+	
+	//by 01
+	uint32_t count;
+	tNode* nextNode;
+	
+	nextNode = list->headNode.nextNode;
+	for(count = list->nodeCount; count != 0; count--)
+	{
+		tNode* currentNode = nextNode;
+		nextNode = nextNode->nextNode;
+		
+		currentNode->nextNode = currentNode;
+		currentNode->preNode = currentNode;
+	}
+	
+	list->headNode.nextNode = &(list->headNode);
+	list->headNode.preNode = &(list->headNode);
+	
+	list->nodeCount = 0;
 }
 tNode* tListRemoveFirst(tList* list)
 {
+	//byb
+	/*
 	tNode* nodeToDelete = list->headNode.nextNode;
 	nodeToDelete->nextNode->preNode = nodeToDelete->preNode; //相当于 &(list->headNode);
 	list->headNode.nextNode = nodeToDelete->nextNode;
@@ -155,6 +215,24 @@ tNode* tListRemoveFirst(tList* list)
 	list->nodeCount--;
 	
 	return nodeToDelete;
+	*/
+	
+	//by 01
+	tNode* node = (tNode*) 0;
+	if(list->nodeCount != 0)
+	{
+		node = list->headNode.nextNode;
+		
+		node->nextNode->preNode = &(list->headNode);
+		list->headNode.nextNode = node->nextNode; //这里如果是删除掉仅有的一个node,也是符合逻辑的,因为删除之后list->headNode的pre和next都是指向&(list->headNode)
+		
+		node->preNode = node;
+		node->nextNode = node;
+		
+		list->nodeCount--;
+	}
+	
+	return node;
 }
 tNode* tListRemoveLast(tList* list) //by bessie
 {
@@ -168,11 +246,92 @@ tNode* tListRemoveLast(tList* list) //by bessie
 	list->nodeCount--;
 	return nodeToDelete;
 }
-void tListRemove(tList* list, tNode* node);
-void tListRemovePre(tList* list, tNode* node); //by bessie
-void tListRemoveNext(tList* list, tNode* node); //by bessie
+void tListRemove(tList* list, tNode* nodeToDelete)
+{
+	//byb
+	/*
+	//我认为,这个要删除的node,不能是&(list->headNode)
+	if(nodeToDelete == &(list->headNode)) return;
+	
+	tNode* n;
+	for(n = list->headNode.nextNode; n != &(list->headNode); n = n->nextNode)
+	{
+		if(n == nodeToDelete)
+		{
+			nodeToDelete->nextNode->preNode = nodeToDelete->preNode;
+			nodeToDelete->preNode->nextNode = nodeToDelete->nextNode;
+			
+			nodeToDelete->preNode = nodeToDelete;
+			nodeToDelete->nextNode = nodeToDelete;
+			
+			list->nodeCount--;
+		}
+	}
+	*/
+	
+	//by 01
+	nodeToDelete->preNode->nextNode = nodeToDelete->nextNode;
+	nodeToDelete->nextNode->preNode = nodeToDelete->preNode;
+	
+	list->nodeCount--;
+}
+void tListRemovePre(tList* list, tNode* nodeAfter) //删除nodeAfter的前一个节点, by bessie
+{
+	//byb
+	/*
+	//我认为,这个要删除的node,不能是&(list->headNode)
+	if(nodeAfter == (tNode*)&(list->headNode.nextNode)) return;
+	
+	for()
+	*/
+	
+}
+void tListRemoveNext(tList* list, tNode* node) //by bessie
+{
+	//todo
+}
 //3.5 查:
-tNode* tListFirst(tList* list);
-tNode* tListLast(tList* list);
-tNode* tListPre(tList* list, tNode* node);
-tNode* tListNext(tList* list, tNode* node);
+tNode* tListFirst(tList* list)
+{
+	//by 01
+	tNode* node = (tNode*) 0;
+	if(list->nodeCount != 0)
+	{
+		node = list->headNode.nextNode;
+	}
+	return node;
+}
+tNode* tListLast(tList* list)
+{
+	//by 01
+	tNode* node = (tNode*) 0;
+	if(list->nodeCount != 0)
+	{
+		node = list->headNode.preNode;
+	}
+	
+	return node;
+}
+tNode* tListPre(tList* list, tNode* node) //虽然这里list没有用到
+{
+	//by 01
+	//判断node的合法性
+	if(node->preNode == node)
+	{
+		return (tNode*) 0;
+	}
+	
+	return node->preNode;
+	
+}
+tNode* tListNext(tList* list, tNode* node)
+{
+	//by 01
+	//判断node的合法性
+	if(node->nextNode == node)
+	{
+		return (tNode*) 0;
+	}
+	
+	return node->nextNode;
+}

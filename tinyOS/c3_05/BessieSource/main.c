@@ -26,6 +26,8 @@ tTask* nextTask;
 tTask* idleTask; //2.4
 
 
+
+
 //3.2 定义调度锁的计数器, 是uint8, 只有当调度锁==0的时候,才可以触发调度函数tTaskSched()
 uint8_t schedLockCount;
 
@@ -215,10 +217,33 @@ void ifError(void)
 	
 }
 
+
+
+//3.5 测试用
+tList list;
+tNode node[8];
+
 //2.1 设置task1任务需要执行的函数
 void task1Entry(void * param) 
 {
+	int i = 0;
 	tSetSysTickPeriod(1);
+	
+	//3.5 测试tNode和tList
+	tListInit(&list);
+	for(i = 0;i < 8; i++)
+	{
+		tNodeInit(&node[i]);
+		tListAddFirst(&list, &node[i]);
+	}
+	
+	//3.5 删除
+	for(i = 0; i < 8; i++)
+	{
+		tListRemoveFirst(&list);
+	}
+	
+
 	for(;;){
 		task1Flag = 0;
 		tTaskDelay(1);

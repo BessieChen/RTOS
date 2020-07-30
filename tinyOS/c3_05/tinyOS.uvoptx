@@ -139,9 +139,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>223</LineNumber>
+          <LineNumber>248</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>1220</Address>
+          <Address>1428</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -150,14 +150,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\BessieSource\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\223</Expression>
+          <Expression>\\tinyOS\BessieSource/main.c\248</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>221</LineNumber>
+          <LineNumber>230</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>1212</Address>
+          <Address>1366</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -166,14 +166,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\BessieSource\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\221</Expression>
+          <Expression>\\tinyOS\BessieSource/main.c\230</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>177</LineNumber>
+          <LineNumber>179</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>888</Address>
+          <Address>1040</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -182,14 +182,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\BessieSource\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\177</Expression>
+          <Expression>\\tinyOS\BessieSource/main.c\179</Expression>
         </Bp>
         <Bp>
           <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>150</LineNumber>
+          <LineNumber>152</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>1168</Address>
+          <Address>1320</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -198,14 +198,78 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\BessieSource\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\150</Expression>
+          <Expression>\\tinyOS\BessieSource/main.c\152</Expression>
         </Bp>
         <Bp>
           <Number>4</Number>
           <Type>0</Type>
+          <LineNumber>148</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>1300</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\BessieSource\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\tinyOS\BessieSource/main.c\148</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>139</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>1276</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\BessieSource\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\tinyOS\BessieSource/main.c\139</Expression>
+        </Bp>
+        <Bp>
+          <Number>6</Number>
+          <Type>0</Type>
+          <LineNumber>77</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>1202</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\BessieSource\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\tinyOS\BessieSource/main.c\77</Expression>
+        </Bp>
+        <Bp>
+          <Number>7</Number>
+          <Type>0</Type>
+          <LineNumber>70</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>1176</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\BessieSource\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\tinyOS\BessieSource/main.c\70</Expression>
+        </Bp>
+        <Bp>
+          <Number>8</Number>
+          <Type>0</Type>
           <LineNumber>146</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>1148</Address>
+          <Address>1290</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -217,11 +281,11 @@
           <Expression>\\tinyOS\BessieSource/main.c\146</Expression>
         </Bp>
         <Bp>
-          <Number>5</Number>
+          <Number>9</Number>
           <Type>0</Type>
-          <LineNumber>144</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>1138</Address>
+          <LineNumber>241</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1410</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -230,14 +294,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\BessieSource\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\144</Expression>
+          <Expression>\\tinyOS\BessieSource/main.c\241</Expression>
         </Bp>
         <Bp>
-          <Number>6</Number>
+          <Number>10</Number>
           <Type>0</Type>
-          <LineNumber>137</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>1124</Address>
+          <LineNumber>247</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1426</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -246,39 +310,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\BessieSource\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\137</Expression>
-        </Bp>
-        <Bp>
-          <Number>7</Number>
-          <Type>0</Type>
-          <LineNumber>68</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>1024</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\BessieSource\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\68</Expression>
-        </Bp>
-        <Bp>
-          <Number>8</Number>
-          <Type>0</Type>
-          <LineNumber>75</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>1050</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\BessieSource\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\tinyOS\BessieSource/main.c\75</Expression>
+          <Expression>\\tinyOS\BessieSource/main.c\247</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -296,6 +328,21 @@
           <count>2</count>
           <WinNumber>1</WinNumber>
           <ItemText>nextTask</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>list</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>node</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>node</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
