@@ -211,10 +211,12 @@ void tTaskSysTickHandler()
 		tTask* task = (tTask*)tNodeParentAddr(tTask, delayNode, node); //第一个参数: 结构体, 第二个: 结构体的成员, 第三个: 该成员的实际地址. 求: 结构体的实际首地址
 
 		//将task的delayTIck递减
-		//task->delayTick--;
-		
 		//如果tick == 0, 从延迟队列移除(tTaskDelayedList, task->state), 加入就绪队列(bitmap, taskTable, task->state)
-		
+		if(--task->delayTicks == 0)
+		{
+			tTimeTaskWakeUp(task);
+			tTaskSchedReady(task);
+		}
 	}
 	tTaskExitCritical(status);
 	//因为上面递减了delayTicks,所以有可能有一个以上的任务延迟完毕,可以被开启了. 以下的tTaskSched()里面就可以判断是否delayTicks==0,是否可以被开启
@@ -234,14 +236,21 @@ void SysTick_Handler()
 	
 }
 
-//3.4 这里需要将修改 //2.4 实现延时函数, 因为这个函数肯定是currentTask调用的,所以里面直接写currentTask->xxx
+//3.6 需要修改 //3.4 这里需要将修改 //2.4 实现延时函数, 因为这个函数肯定是currentTask调用的,所以里面直接写currentTask->xxx
 void tTaskDelay(uint32_t delay)
 {
 	uint32_t status = tTaskEnterCritical();
 	
+	//3.6 删除3.4部分
+	/*
 	currentTask->delayTicks = delay; //也就是为currentTask设置需要延时多久
 	tBitmapClear(&taskPrioBitmap, currentTask->prio); //3.4 因为延时说明currentTask不需要cpu,既然不需要,说明就绪表中对应的元素就设置成0
 	//3.4 注意:即便clear()了,但是currentTask的prio还是没有变化, taskTable中也还是有这个任务
+	*/
+	
+	//3.6 将task放入延时队列, 将task从就绪队列中删除
+	tTimeTaskWait(currentTask, delay); //注意, 因为我们这里没有task传入, 而是传入currentTask, 因为这个函数肯定是currentTask传入的
+	tTaskSchedUnReady(currentTask);
 	
 	tTaskExitCritical(status);
 	tTaskSched();//所以现在currentTask是放弃了cpu,现在由tTaskSched()来判断还有谁是需要cpu的
@@ -283,30 +292,12 @@ void ifError(void)
 
 
 
-//3.5 测试用
-tList list;
-tNode node[8];
+
 
 //2.1 设置task1任务需要执行的函数
 void task1Entry(void * param) 
 {
-	int i = 0;
 	tSetSysTickPeriod(1);
-	
-	//3.5 测试tNode和tList
-	tListInit(&list);
-	for(i = 0;i < 8; i++)
-	{
-		tNodeInit(&node[i]);
-		tListAddFirst(&list, &node[i]);
-	}
-	
-	//3.5 删除
-	for(i = 0; i < 8; i++)
-	{
-		tListRemoveFirst(&list);
-	}
-	
 
 	for(;;){
 		task1Flag = 0;
@@ -402,6 +393,9 @@ int main()
 	
 	//3.4 因为shareCount是我们自己的定义的调度锁,所以需要初始化, 这个函数里面包含了 初始化就绪表, 也就是bitmap的初始化
 	tTaskSchedInit();
+	
+	//3.6 初始化延时队列
+	tTaskDelayedInit();
 
 	
 	//将tTask绑定上相应的stack和func

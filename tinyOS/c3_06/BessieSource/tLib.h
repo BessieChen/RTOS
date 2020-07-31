@@ -61,6 +61,8 @@ tNode* tListNext(tList* list, tNode* node);
 
 //3.5: 已知一个结构parent的一个成员node的实际地址nodeRealAddr, 求parent结构的起始地址. 其中nodeInStruct是node的声明
 //注意: 这个写法是错的: (uint32_t)&((parent*)0->nodeInStruct)), 编译器认为, 先是 0->nodeInStruct, 所以认为0没有指定指针类型, 报错: error:  #44: expression must have pointer type
+//正确的写法: (uint32_t)&(((parent*)0)->nodeInStruct))
+//另一个写法:不用指针,用点: (uint32_t)&((*(parent*)0).nodeInStruct)), 因为p->aa 相当于(*p).aa
 #define tNodeParentAddr(parent, nodeInStruct, nodeRealAddr) (parent*)((uint32_t)nodeRealAddr - (uint32_t)&(((parent*)0)->nodeInStruct))
 
 #endif
