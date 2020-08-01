@@ -12,6 +12,7 @@
 //3.6 宏定义: 任务是否准备就绪
 #define TINYOS_TASK_STATE_READY				0				//就绪
 #define TINYOS_TASK_STATE_DELAYED			(1<<1)	//延时中
+#define TINYOS_TASK_STATE_SUSPEND			(1<<2)	//4.1 挂起的状态位
 
 //因为tinyOS.h是给用户看我们的项目都有哪些成员的,所以接下来是正式的内容
 
@@ -29,6 +30,7 @@ typedef struct _tTask
 		uint32_t state; //3.6 任务的状态: 是否延时, ...
 		tNode linkNode; //3.7 就绪节点,所以同一个优先级, 可以有多个任务, 也就是tList(某个优先级)中存储多个linkNode(可以找到对应的task)
 		uint32_t slice; //3.7 时间片
+		uint32_t suspendCount; //4.1 挂起的计数器
 }tTask;
 
 //其他声明, todo: 不用extern可不可以,因为这里只是声明,没有定义
@@ -76,5 +78,9 @@ void tAppInit(void);
 
 //一直占用cpu的延时函数
 void delay(int ticks);
+
+//4.1 挂起和挂起恢复
+void tTaskSuspend(tTask* task);
+void tTaskWakeUp(tTask* task);
 
 #endif

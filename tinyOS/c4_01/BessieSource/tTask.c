@@ -80,3 +80,58 @@ void taskInit(tTask* task, void (*func)(void*), void* param, uint32_t prio, tTas
 	
 
 }
+
+
+//4.1 设置挂起函数
+void tTaskSuspend(tTask* task) //需要挂起的任务
+{
+	//设置临界区
+	uint32_t status = tTaskEnterCritical();
+	
+	//如果任务在延时状态, 不能挂起. 回忆: 只有在就绪和运行的时候, 才能挂起
+	if(!(task->state & TINYOS_TASK_STATE_DELAYED))
+	{
+		//如果是第一次被挂起, 就将状态位设置成挂起. (如果是第二次第三次被挂起, 状态位已经被设置了, 就不需要重复设置)
+		if(++task->suspendCount <= 1) //这里是一个保守的写法, 也就是我们本来是想说明是 == 1
+		{
+			//设置
+			task->state |= TINYOS_TASK_STATE_SUSPEND;
+			
+			//将task从就绪列表中移除, 注意: 移除之后, task既不会就绪, 也不会运行(运行首先需要在就绪里面排队), task现在就在一个挂起状态中, 老师说了, 你可以设置一个挂起队列tList存放所有的挂起的task, 但是老师这里没有实现
+			tTaskSchedUnReady(task);
+			
+			//如果这个任务是当前任务, 就切换到其他任务
+			if(task == currentTask)
+			{
+				tTaskSched();
+			}
+		}
+		
+	}
+	
+	tTaskExitCritical(status);
+}
+
+//4.1 从挂起到恢复的函数, 可以恢复到运行或者就绪
+void tTaskWakeUp(tTask* task)
+{
+	//临界区
+	uint32_t status = tTaskEnterCritical();
+	
+	//先判断task是否是挂起状态
+	if(task->state & TINYOS_TASK_STATE_SUSPEND)
+	{
+		//挂起-1, 如果-1之后, 挂起计数器 == 0, 恢复之前的状态: 就绪
+		if(--task->suspendCount == 0)
+		{
+			task->state &= ~(TINYOS_TASK_STATE_SUSPEND);
+			
+			//放入就绪队列
+			tTaskSchedReady(task); //对比: tTaskSchedUnReady(task);是将task从就绪列表中移除
+			
+			//调度: 也就是说如果这个task是最高优先级的头部task, 那这个task就会变成运行, 如果不是的话, 这个task依旧是就绪状态
+			tTaskSched();
+		}
+	}
+	tTaskExitCritical(status);
+}	

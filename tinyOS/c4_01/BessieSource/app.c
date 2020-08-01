@@ -23,11 +23,19 @@ void task1Entry(void * param)
 	for(;;){
 
 		task1Flag = 0;
+		/*
+		4.1 删除
 		//delay(10);
-		tTaskDelay(1);
+		//tTaskDelay(1);
+		*/
+		tTaskSuspend(currentTask); //4.1 task1将自己挂起
 		task1Flag = 1;
+		/*
+		4.1 删除
 		//delay(10);
-		tTaskDelay(1);
+		//tTaskDelay(1);
+		*/
+		tTaskSuspend(currentTask); //4.1 task1第二次将自己挂起
 	}
 	
 }
@@ -38,11 +46,15 @@ void task2Entry(void * param)
 		task2Flag = 0;
 		//3.7 删除 tTaskDelay(1); 因为tTaskDelay()会主动让出资源,但是我们这里需要task2一直占用资源,然后就来检测我们的时间片是否有用,如果有用,task2即便想一直占有资源也不做不到
 		//3.7 为了让task2一直占用资源,使用delay()
-		delay(0xFF);
+		//4.1 删除delay(0xFF);
+		tTaskDelay(1); //4.1
+		tTaskWakeUp(&tTask1); //4.1 让task2唤醒task1
 		task2Flag = 1;
 		//3.7 删除: tTaskDelay(1);
 		//3.7 为了让task2一直占用资源,使用delay()
-		delay(0xFF);
+		//4.1 删除delay(0xFF);
+		tTaskDelay(1); //4.1
+		tTaskWakeUp(&tTask1); //4.1 让task2第二次唤醒task1
 
 	}
 }
@@ -54,10 +66,12 @@ void task3Entry(void * param)
 
 		task3Flag = 0;
 		//3.7 为了让task2一直占用资源,使用delay()
-		delay(0xFF);
+		//4.1 删除 delay(0xFF);
+		tTaskDelay(1);
 		task3Flag = 1;
 		//3.7 为了让task2一直占用资源,使用delay()
-		delay(0xFF);
+		//4.1 删除 delay(0xFF);
+		tTaskDelay(1);
 	}
 }
 

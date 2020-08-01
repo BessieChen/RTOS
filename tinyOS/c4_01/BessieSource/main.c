@@ -11,7 +11,7 @@ tList taskTable[TINYOS_PRIO_COUNT];
 
 
 //2.1 设置完了tinyOS.h后,我们就设置两个stack,并且设置两个task, 再设置两个task执行的函数
-tTaskStack idleTaskEnv[1024]; //2.4
+tTaskStack idleTaskEnv[TINYOS_IDELTASK_STACK_SIZE]; //2.4
 
 tTask tTaskIdle; //2.4
 
@@ -294,7 +294,7 @@ int main()
 	
 	//将tTask绑定上相应的stack和func
 	
-	taskInit(&tTaskIdle, idleTaskEntry, (void*)0x00000001, TINYOS_PRIO_COUNT - 1, &idleTaskEnv[1024]); //3.4 设置成最低优先级,31. 这里使用的是配置文件tConfig.h中的宏定义
+	taskInit(&tTaskIdle, idleTaskEntry, (void*)0x00000001, TINYOS_PRIO_COUNT - 1, &idleTaskEnv[TINYOS_IDELTASK_STACK_SIZE]); //3.4 设置成最低优先级,31. 这里使用的是配置文件tConfig.h中的宏定义
 	
 	//为我们的taskTable设置
 	//3.7 删除 taskTable[0] = &tTask1;
