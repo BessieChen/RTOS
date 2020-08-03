@@ -19,9 +19,9 @@ typedef struct _tEvent
 }tEvent;
 	
 //5.1 ECB的初始化函数
-void tEventInit(tEvent* event, tEventType* type); //5.2 这里type没有用到呀..
+void tEventInit(tEvent* event, tEventType type); //5.2 这里type没有用到呀..
 void tEventWait(tEvent* event, tTask* task, void* msg, uint32_t state, uint32_t timeout);//5.2 将task放入ECB的等待队列
-tTask* tEventWake(tEvent* event, void* msg, uint32_t result);//5.2 将task从ECB的等待队列中唤醒
+tTask* tEventWakeUp(tEvent* event, void* msg, uint32_t result);//5.2 将task从ECB的等待队列中唤醒
 void tEventRemoveTask(tTask* task, void* msg, uint32_t result);//5.2 将task从ECB中强制移除
 
 

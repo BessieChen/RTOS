@@ -1,7 +1,7 @@
 #include "tinyOS.h"
 
 //5.2 初始化
-void tEventInit(tEvent* eventECB, tEventType* type) //5.2 这里type没有用到呀..
+void tEventInit(tEvent* eventECB, tEventType type) //5.2 这里type没有用到呀..
 {
 	eventECB->type = tEventTypeUnknown;
 	tListInit(&(eventECB->waitList));
@@ -35,7 +35,7 @@ void tEventWait(tEvent* eventECB, tTask* task, void* msg, uint32_t state, uint32
 }
 
 //5.2 将task从ECB的等待队列中唤醒, 注意, 这是只是唤醒第一个task, 而不是指定某个task //疑问: 谁会调用 这个函数? 因为,等待事件如果发生,就是会唤醒指定的task,而不是唤醒第一个呀
-tTask* tEventWake(tEvent* event, void* msg, uint32_t result)//msg:会传递信息进去, result: 唤醒的结果
+tTask* tEventWakeUp(tEvent* eventECB, void* msg, uint32_t result)//msg:会传递信息进去, result: 唤醒的结果
 {
 	tNode* node;
 	tTask* task = (tTask*) 0;
@@ -43,7 +43,7 @@ tTask* tEventWake(tEvent* event, void* msg, uint32_t result)//msg:会传递信息进去
 	uint32_t status = tTaskEnterCritical();
 	
 	//唤醒队列头部的task
-	node = tListRemoveFirst(&event->waitList);
+	node = tListRemoveFirst(&eventECB->waitList);
 	if(node != (tNode*)0) //说明list有至少一个node
 	{
 		//找到对应的task
@@ -59,6 +59,7 @@ tTask* tEventWake(tEvent* event, void* msg, uint32_t result)//msg:会传递信息进去
 		
 		//假设之前的task处于延时队列中, 也就是之前设置了timeOut, 那么唤醒task的同时, 就要强制的! 把task从延时队列中清除
 		//如果delayticks == 0, 其他函数会把task从延时队列中删除. 总之都要删除
+		//如果delayticks == 0, 另一个可能就就是, 从来就没有加入过延时队列
 		if(task->delayTicks != 0)
 		{
 			tTimeTaskWakeUp(task);
