@@ -126,7 +126,10 @@ Section Cross References
     app.o(i.task2Entry) refers to app.o(.data) for task2Flag
     app.o(i.task3DestroyFunc) refers to ttask.o(i.tTaskDeleteSelf) for tTaskDeleteSelf
     app.o(i.task3DestroyFunc) refers to app.o(.data) for task3Flag
+    app.o(i.task3Entry) refers to tmbox.o(i.tMboxInit) for tMboxInit
+    app.o(i.task3Entry) refers to tmbox.o(i.tMboxWait) for tMboxWait
     app.o(i.task3Entry) refers to ttime.o(i.tTaskDelay) for tTaskDelay
+    app.o(i.task3Entry) refers to app.o(.bss) for mbox2MsgBuffer
     app.o(i.task3Entry) refers to app.o(.data) for task3Flag
     app.o(i.task4Entry) refers to ttime.o(i.tTaskDelay) for tTaskDelay
     app.o(i.task4Entry) refers to app.o(.data) for task4Flag
@@ -526,12 +529,12 @@ Image Symbol Table
     i.tTimeTaskWait                          0x000008e4   Section        0  main.o(i.tTimeTaskWait)
     i.tTimeTaskWakeUp                        0x00000904   Section        0  main.o(i.tTimeTaskWakeUp)
     i.task1Entry                             0x00000920   Section        0  app.o(i.task1Entry)
-    i.task2Entry                             0x000009a8   Section        0  app.o(i.task2Entry)
-    i.task3Entry                             0x000009ec   Section        0  app.o(i.task3Entry)
-    i.task4Entry                             0x00000a0c   Section        0  app.o(i.task4Entry)
-    i.taskInit                               0x00000a2c   Section        0  ttask.o(i.taskInit)
-    .constdata                               0x00000aee   Section      256  tbitmap.o(.constdata)
-    quickFindTable                           0x00000aee   Data         256  tbitmap.o(.constdata)
+    i.task2Entry                             0x000009a0   Section        0  app.o(i.task2Entry)
+    i.task3Entry                             0x000009e4   Section        0  app.o(i.task3Entry)
+    i.task4Entry                             0x00000a20   Section        0  app.o(i.task4Entry)
+    i.taskInit                               0x00000a40   Section        0  ttask.o(i.taskInit)
+    .constdata                               0x00000b02   Section      256  tbitmap.o(.constdata)
+    quickFindTable                           0x00000b02   Data         256  tbitmap.o(.constdata)
     .data                                    0x20000000   Section       17  main.o(.data)
     .data                                    0x20000014   Section       16  app.o(.data)
     .data                                    0x20000024   Section        4  system_armcm3.o(.data)
@@ -715,13 +718,13 @@ Image Symbol Table
     tTaskSysTickHandler                      0x00000849   Thumb Code   142  main.o(i.tTaskSysTickHandler)
     tTimeTaskWait                            0x000008e5   Thumb Code    28  main.o(i.tTimeTaskWait)
     tTimeTaskWakeUp                          0x00000905   Thumb Code    24  main.o(i.tTimeTaskWakeUp)
-    task1Entry                               0x00000921   Thumb Code   120  app.o(i.task1Entry)
-    task2Entry                               0x000009a9   Thumb Code    58  app.o(i.task2Entry)
-    task3Entry                               0x000009ed   Thumb Code    26  app.o(i.task3Entry)
-    task4Entry                               0x00000a0d   Thumb Code    26  app.o(i.task4Entry)
-    taskInit                                 0x00000a2d   Thumb Code   194  ttask.o(i.taskInit)
-    Region$$Table$$Base                      0x00000bf0   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00000c10   Number         0  anon$$obj.o(Region$$Table)
+    task1Entry                               0x00000921   Thumb Code   112  app.o(i.task1Entry)
+    task2Entry                               0x000009a1   Thumb Code    58  app.o(i.task2Entry)
+    task3Entry                               0x000009e5   Thumb Code    48  app.o(i.task3Entry)
+    task4Entry                               0x00000a21   Thumb Code    26  app.o(i.task4Entry)
+    taskInit                                 0x00000a41   Thumb Code   194  ttask.o(i.taskInit)
+    Region$$Table$$Base                      0x00000c04   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000c24   Number         0  anon$$obj.o(Region$$Table)
     taskPrioBitmap                           0x20000000   Data           4  main.o(.data)
     currentTask                              0x20000004   Data           4  main.o(.data)
     nextTask                                 0x20000008   Data           4  main.o(.data)
@@ -760,9 +763,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000018d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000c38, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000c4c, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000c10, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000c24, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -869,14 +872,14 @@ Memory Map of the image
     0x00000848   0x0000009c   Code   RO           19    i.tTaskSysTickHandler  main.o
     0x000008e4   0x00000020   Code   RO           21    i.tTimeTaskWait     main.o
     0x00000904   0x0000001c   Code   RO           22    i.tTimeTaskWakeUp   main.o
-    0x00000920   0x00000088   Code   RO          481    i.task1Entry        app.o
-    0x000009a8   0x00000044   Code   RO          482    i.task2Entry        app.o
-    0x000009ec   0x00000020   Code   RO          484    i.task3Entry        app.o
-    0x00000a0c   0x00000020   Code   RO          485    i.task4Entry        app.o
-    0x00000a2c   0x000000c2   Code   RO          378    i.taskInit          ttask.o
-    0x00000aee   0x00000100   Data   RO          230    .constdata          tbitmap.o
-    0x00000bee   0x00000002   PAD
-    0x00000bf0   0x00000020   Data   RO          847    Region$$Table       anon$$obj.o
+    0x00000920   0x00000080   Code   RO          481    i.task1Entry        app.o
+    0x000009a0   0x00000044   Code   RO          482    i.task2Entry        app.o
+    0x000009e4   0x0000003c   Code   RO          484    i.task3Entry        app.o
+    0x00000a20   0x00000020   Code   RO          485    i.task4Entry        app.o
+    0x00000a40   0x000000c2   Code   RO          378    i.taskInit          ttask.o
+    0x00000b02   0x00000100   Data   RO          230    .constdata          tbitmap.o
+    0x00000c02   0x00000002   PAD
+    0x00000c04   0x00000020   Data   RO          847    Region$$Table       anon$$obj.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x00000028, Max: 0xffffffff, ABSOLUTE)
@@ -908,7 +911,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       392         88          0         16      16952       3623   app.o
+       412         94          0         16      16952       3695   app.o
        626        100          0         17       4556      20794   main.o
         64         26        192          0       4096        848   startup_armcm3.o
         92         18          0          0          0       4154   switch.o
@@ -922,7 +925,7 @@ Image component sizes
         44          4          0          0          0        521   ttime.o
 
     ----------------------------------------------------------------------
-      2328        272        482         40      25604      69546   Object Totals
+      2348        278        482         40      25604      69618   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          8          0          2          3          0          0   (incl. Padding)
 
@@ -971,15 +974,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2606        288        482         40      25704      67734   Grand Totals
-      2606        288        482         40      25704      67734   ELF Image Totals
-      2606        288        482         40          0          0   ROM Totals
+      2626        294        482         40      25704      67806   Grand Totals
+      2626        294        482         40      25704      67806   ELF Image Totals
+      2626        294        482         40          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 3088 (   3.02kB)
+    Total RO  Size (Code + RO Data)                 3108 (   3.04kB)
     Total RW  Size (RW Data + ZI Data)             25744 (  25.14kB)
-    Total ROM Size (Code + RO Data + RW Data)       3128 (   3.05kB)
+    Total ROM Size (Code + RO Data + RW Data)       3148 (   3.07kB)
 
 ==============================================================================
 

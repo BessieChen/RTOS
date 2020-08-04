@@ -50,7 +50,7 @@ void task1Entry(void * param)
 		uint32_t i = 0;
 		for(i = 0; i < 20; i++)
 		{
-			msg[i] = i+3;
+			msg[i] = i;
 			tMboxNotify(&mbox1, &msg[i], tMBOXSendNormal); //普通发送给mbox1
 		}
 		
@@ -60,13 +60,13 @@ void task1Entry(void * param)
 		//7.2 将高优先级方式, 加到缓存区中
 		for(i = 0; i < 20 ;i++)
 		{
-			msg[i] = i+7;
+			msg[i] = i;
 			tMboxNotify(&mbox1, &msg[i], tMBOXSendFront);
 		}
 		
 		//7.2 加一个长一点的延时, 因为上面的for loop已经将mbox1给装满了, 所以需要延迟久一点让task2去读取mbox1
 		tTaskDelay(100);
-		//tTaskDelay(100);
+		
 		task1Flag = 0;
 		tTaskDelay(1);
 		task1Flag = 1;
@@ -113,13 +113,13 @@ void task3DestroyFunc(void* param)
 void task3Entry(void * param) 
 {
 	//7.2 测试邮箱等待的超时
-	//tMboxInit(&mbox2, mbox2MsgBuffer, 20); //初始化mbox2
+	tMboxInit(&mbox2, mbox2MsgBuffer, 20); //初始化mbox2
 	
 	for(;;){
 		
 		//7.2  超时等待		
-		//void* msg;
-		//tMboxWait(&mbox2, &msg, 100); //超时时间是100
+		void* msg;
+		tMboxWait(&mbox2, &msg, 100); //超时时间是100
 		
 		task3Flag = 0;
 		tTaskDelay(1);
