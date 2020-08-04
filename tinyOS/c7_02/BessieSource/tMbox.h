@@ -16,7 +16,7 @@ typedef struct _tMbox
 	uint32_t read; //读索引
 	uint32_t write; //写索引
 	uint32_t maxCount; //邮箱的容量
-	void** msgBuffer; //所以里面是一个地址, 指向的msgBuffer的地址
+	void** msgBuffer; //所以里面是一个地址, 指向的void*的地址, 这是二级指针
 }tMbox;
 
 //7.1 

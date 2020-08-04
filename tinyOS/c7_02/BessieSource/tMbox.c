@@ -7,6 +7,8 @@
 void tMboxInit(tMbox* mbox, void** msgBuffer, uint32_t maxCount)
 {
 	tEventInit(&mbox->eventECB, tEventTypeMbox); //所以这个ECB是邮箱类型的
+	
+	mbox->msgBuffer = msgBuffer;//bug!!! 我怎么可以没有写这一句!! 	void** msgBuffer; //所以里面是一个地址, 指向的void*的地址, 这是二级指针
 	mbox->maxCount = maxCount; //容量
 	mbox->read = 0;
 	mbox->write = 0;

@@ -507,31 +507,31 @@ Image Symbol Table
     i.tListRemove                            0x000004ea   Section        0  tlist.o(i.tListRemove)
     i.tListRemoveFirst                       0x000004fe   Section        0  tlist.o(i.tListRemoveFirst)
     i.tMboxInit                              0x0000051c   Section        0  tmbox.o(i.tMboxInit)
-    i.tMboxNotify                            0x00000538   Section        0  tmbox.o(i.tMboxNotify)
-    i.tMboxWait                              0x000005d0   Section        0  tmbox.o(i.tMboxWait)
-    i.tNodeInit                              0x0000063c   Section        0  tlist.o(i.tNodeInit)
-    i.tSetSysTickPeriod                      0x00000644   Section        0  tcpu.o(i.tSetSysTickPeriod)
-    i.tTaskDelay                             0x0000069c   Section        0  ttime.o(i.tTaskDelay)
-    i.tTaskDelayedInit                       0x000006c8   Section        0  main.o(i.tTaskDelayedInit)
-    i.tTaskEnterCritical                     0x000006d8   Section        0  main.o(i.tTaskEnterCritical)
-    i.tTaskExitCritical                      0x000006e4   Section        0  main.o(i.tTaskExitCritical)
-    i.tTaskHighestTaskReady                  0x000006f0   Section        0  main.o(i.tTaskHighestTaskReady)
-    i.tTaskRunFirst                          0x0000071c   Section        0  switch.o(i.tTaskRunFirst)
-    i.tTaskSched                             0x00000738   Section        0  main.o(i.tTaskSched)
-    i.tTaskSchedInit                         0x00000784   Section        0  main.o(i.tTaskSchedInit)
-    i.tTaskSchedReady                        0x000007b8   Section        0  main.o(i.tTaskSchedReady)
-    i.tTaskSchedUnReady                      0x000007f8   Section        0  main.o(i.tTaskSchedUnReady)
-    i.tTaskSwitch                            0x00000834   Section        0  switch.o(i.tTaskSwitch)
-    i.tTaskSysTickHandler                    0x00000844   Section        0  main.o(i.tTaskSysTickHandler)
-    i.tTimeTaskWait                          0x000008e0   Section        0  main.o(i.tTimeTaskWait)
-    i.tTimeTaskWakeUp                        0x00000900   Section        0  main.o(i.tTimeTaskWakeUp)
-    i.task1Entry                             0x0000091c   Section        0  app.o(i.task1Entry)
-    i.task2Entry                             0x000009a4   Section        0  app.o(i.task2Entry)
-    i.task3Entry                             0x000009e8   Section        0  app.o(i.task3Entry)
-    i.task4Entry                             0x00000a08   Section        0  app.o(i.task4Entry)
-    i.taskInit                               0x00000a28   Section        0  ttask.o(i.taskInit)
-    .constdata                               0x00000aea   Section      256  tbitmap.o(.constdata)
-    quickFindTable                           0x00000aea   Data         256  tbitmap.o(.constdata)
+    i.tMboxNotify                            0x0000053c   Section        0  tmbox.o(i.tMboxNotify)
+    i.tMboxWait                              0x000005d4   Section        0  tmbox.o(i.tMboxWait)
+    i.tNodeInit                              0x00000640   Section        0  tlist.o(i.tNodeInit)
+    i.tSetSysTickPeriod                      0x00000648   Section        0  tcpu.o(i.tSetSysTickPeriod)
+    i.tTaskDelay                             0x000006a0   Section        0  ttime.o(i.tTaskDelay)
+    i.tTaskDelayedInit                       0x000006cc   Section        0  main.o(i.tTaskDelayedInit)
+    i.tTaskEnterCritical                     0x000006dc   Section        0  main.o(i.tTaskEnterCritical)
+    i.tTaskExitCritical                      0x000006e8   Section        0  main.o(i.tTaskExitCritical)
+    i.tTaskHighestTaskReady                  0x000006f4   Section        0  main.o(i.tTaskHighestTaskReady)
+    i.tTaskRunFirst                          0x00000720   Section        0  switch.o(i.tTaskRunFirst)
+    i.tTaskSched                             0x0000073c   Section        0  main.o(i.tTaskSched)
+    i.tTaskSchedInit                         0x00000788   Section        0  main.o(i.tTaskSchedInit)
+    i.tTaskSchedReady                        0x000007bc   Section        0  main.o(i.tTaskSchedReady)
+    i.tTaskSchedUnReady                      0x000007fc   Section        0  main.o(i.tTaskSchedUnReady)
+    i.tTaskSwitch                            0x00000838   Section        0  switch.o(i.tTaskSwitch)
+    i.tTaskSysTickHandler                    0x00000848   Section        0  main.o(i.tTaskSysTickHandler)
+    i.tTimeTaskWait                          0x000008e4   Section        0  main.o(i.tTimeTaskWait)
+    i.tTimeTaskWakeUp                        0x00000904   Section        0  main.o(i.tTimeTaskWakeUp)
+    i.task1Entry                             0x00000920   Section        0  app.o(i.task1Entry)
+    i.task2Entry                             0x000009a8   Section        0  app.o(i.task2Entry)
+    i.task3Entry                             0x000009ec   Section        0  app.o(i.task3Entry)
+    i.task4Entry                             0x00000a0c   Section        0  app.o(i.task4Entry)
+    i.taskInit                               0x00000a2c   Section        0  ttask.o(i.taskInit)
+    .constdata                               0x00000aee   Section      256  tbitmap.o(.constdata)
+    quickFindTable                           0x00000aee   Data         256  tbitmap.o(.constdata)
     .data                                    0x20000000   Section       17  main.o(.data)
     .data                                    0x20000014   Section       16  app.o(.data)
     .data                                    0x20000024   Section        4  system_armcm3.o(.data)
@@ -696,32 +696,32 @@ Image Symbol Table
     tListInit                                0x000004e1   Thumb Code    10  tlist.o(i.tListInit)
     tListRemove                              0x000004eb   Thumb Code    20  tlist.o(i.tListRemove)
     tListRemoveFirst                         0x000004ff   Thumb Code    30  tlist.o(i.tListRemoveFirst)
-    tMboxInit                                0x0000051d   Thumb Code    28  tmbox.o(i.tMboxInit)
-    tMboxNotify                              0x00000539   Thumb Code   148  tmbox.o(i.tMboxNotify)
-    tMboxWait                                0x000005d1   Thumb Code   102  tmbox.o(i.tMboxWait)
-    tNodeInit                                0x0000063d   Thumb Code     6  tlist.o(i.tNodeInit)
-    tSetSysTickPeriod                        0x00000645   Thumb Code    74  tcpu.o(i.tSetSysTickPeriod)
-    tTaskDelay                               0x0000069d   Thumb Code    40  ttime.o(i.tTaskDelay)
-    tTaskDelayedInit                         0x000006c9   Thumb Code    10  main.o(i.tTaskDelayedInit)
-    tTaskEnterCritical                       0x000006d9   Thumb Code    12  main.o(i.tTaskEnterCritical)
-    tTaskExitCritical                        0x000006e5   Thumb Code    10  main.o(i.tTaskExitCritical)
-    tTaskHighestTaskReady                    0x000006f1   Thumb Code    34  main.o(i.tTaskHighestTaskReady)
-    tTaskRunFirst                            0x0000071d   Thumb Code    24  switch.o(i.tTaskRunFirst)
-    tTaskSched                               0x00000739   Thumb Code    64  main.o(i.tTaskSched)
-    tTaskSchedInit                           0x00000785   Thumb Code    40  main.o(i.tTaskSchedInit)
-    tTaskSchedReady                          0x000007b9   Thumb Code    54  main.o(i.tTaskSchedReady)
-    tTaskSchedUnReady                        0x000007f9   Thumb Code    52  main.o(i.tTaskSchedUnReady)
-    tTaskSwitch                              0x00000835   Thumb Code    10  switch.o(i.tTaskSwitch)
-    tTaskSysTickHandler                      0x00000845   Thumb Code   142  main.o(i.tTaskSysTickHandler)
-    tTimeTaskWait                            0x000008e1   Thumb Code    28  main.o(i.tTimeTaskWait)
-    tTimeTaskWakeUp                          0x00000901   Thumb Code    24  main.o(i.tTimeTaskWakeUp)
-    task1Entry                               0x0000091d   Thumb Code   120  app.o(i.task1Entry)
-    task2Entry                               0x000009a5   Thumb Code    58  app.o(i.task2Entry)
-    task3Entry                               0x000009e9   Thumb Code    26  app.o(i.task3Entry)
-    task4Entry                               0x00000a09   Thumb Code    26  app.o(i.task4Entry)
-    taskInit                                 0x00000a29   Thumb Code   194  ttask.o(i.taskInit)
-    Region$$Table$$Base                      0x00000bec   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00000c0c   Number         0  anon$$obj.o(Region$$Table)
+    tMboxInit                                0x0000051d   Thumb Code    30  tmbox.o(i.tMboxInit)
+    tMboxNotify                              0x0000053d   Thumb Code   148  tmbox.o(i.tMboxNotify)
+    tMboxWait                                0x000005d5   Thumb Code   102  tmbox.o(i.tMboxWait)
+    tNodeInit                                0x00000641   Thumb Code     6  tlist.o(i.tNodeInit)
+    tSetSysTickPeriod                        0x00000649   Thumb Code    74  tcpu.o(i.tSetSysTickPeriod)
+    tTaskDelay                               0x000006a1   Thumb Code    40  ttime.o(i.tTaskDelay)
+    tTaskDelayedInit                         0x000006cd   Thumb Code    10  main.o(i.tTaskDelayedInit)
+    tTaskEnterCritical                       0x000006dd   Thumb Code    12  main.o(i.tTaskEnterCritical)
+    tTaskExitCritical                        0x000006e9   Thumb Code    10  main.o(i.tTaskExitCritical)
+    tTaskHighestTaskReady                    0x000006f5   Thumb Code    34  main.o(i.tTaskHighestTaskReady)
+    tTaskRunFirst                            0x00000721   Thumb Code    24  switch.o(i.tTaskRunFirst)
+    tTaskSched                               0x0000073d   Thumb Code    64  main.o(i.tTaskSched)
+    tTaskSchedInit                           0x00000789   Thumb Code    40  main.o(i.tTaskSchedInit)
+    tTaskSchedReady                          0x000007bd   Thumb Code    54  main.o(i.tTaskSchedReady)
+    tTaskSchedUnReady                        0x000007fd   Thumb Code    52  main.o(i.tTaskSchedUnReady)
+    tTaskSwitch                              0x00000839   Thumb Code    10  switch.o(i.tTaskSwitch)
+    tTaskSysTickHandler                      0x00000849   Thumb Code   142  main.o(i.tTaskSysTickHandler)
+    tTimeTaskWait                            0x000008e5   Thumb Code    28  main.o(i.tTimeTaskWait)
+    tTimeTaskWakeUp                          0x00000905   Thumb Code    24  main.o(i.tTimeTaskWakeUp)
+    task1Entry                               0x00000921   Thumb Code   120  app.o(i.task1Entry)
+    task2Entry                               0x000009a9   Thumb Code    58  app.o(i.task2Entry)
+    task3Entry                               0x000009ed   Thumb Code    26  app.o(i.task3Entry)
+    task4Entry                               0x00000a0d   Thumb Code    26  app.o(i.task4Entry)
+    taskInit                                 0x00000a2d   Thumb Code   194  ttask.o(i.taskInit)
+    Region$$Table$$Base                      0x00000bf0   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000c10   Number         0  anon$$obj.o(Region$$Table)
     taskPrioBitmap                           0x20000000   Data           4  main.o(.data)
     currentTask                              0x20000004   Data           4  main.o(.data)
     nextTask                                 0x20000008   Data           4  main.o(.data)
@@ -760,9 +760,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000018d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000c34, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000c38, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000c0c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000c10, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -847,35 +847,36 @@ Memory Map of the image
     0x000004e0   0x0000000a   Code   RO          266    i.tListInit         tlist.o
     0x000004ea   0x00000014   Code   RO          272    i.tListRemove       tlist.o
     0x000004fe   0x0000001e   Code   RO          274    i.tListRemoveFirst  tlist.o
-    0x0000051c   0x0000001c   Code   RO          615    i.tMboxInit         tmbox.o
-    0x00000538   0x00000098   Code   RO          617    i.tMboxNotify       tmbox.o
-    0x000005d0   0x0000006c   Code   RO          618    i.tMboxWait         tmbox.o
-    0x0000063c   0x00000006   Code   RO          278    i.tNodeInit         tlist.o
-    0x00000642   0x00000002   PAD
-    0x00000644   0x00000058   Code   RO          446    i.tSetSysTickPeriod  tcpu.o
-    0x0000069c   0x0000002c   Code   RO          430    i.tTaskDelay        ttime.o
-    0x000006c8   0x00000010   Code   RO            8    i.tTaskDelayedInit  main.o
-    0x000006d8   0x0000000c   Code   RO            9    i.tTaskEnterCritical  main.o
-    0x000006e4   0x0000000a   Code   RO           10    i.tTaskExitCritical  main.o
-    0x000006ee   0x00000002   PAD
-    0x000006f0   0x0000002c   Code   RO           11    i.tTaskHighestTaskReady  main.o
-    0x0000071c   0x0000001c   Code   RO          188    i.tTaskRunFirst     switch.o
-    0x00000738   0x0000004c   Code   RO           12    i.tTaskSched        main.o
-    0x00000784   0x00000034   Code   RO           15    i.tTaskSchedInit    main.o
-    0x000007b8   0x00000040   Code   RO           16    i.tTaskSchedReady   main.o
-    0x000007f8   0x0000003c   Code   RO           18    i.tTaskSchedUnReady  main.o
-    0x00000834   0x00000010   Code   RO          189    i.tTaskSwitch       switch.o
-    0x00000844   0x0000009c   Code   RO           19    i.tTaskSysTickHandler  main.o
-    0x000008e0   0x00000020   Code   RO           21    i.tTimeTaskWait     main.o
-    0x00000900   0x0000001c   Code   RO           22    i.tTimeTaskWakeUp   main.o
-    0x0000091c   0x00000088   Code   RO          481    i.task1Entry        app.o
-    0x000009a4   0x00000044   Code   RO          482    i.task2Entry        app.o
-    0x000009e8   0x00000020   Code   RO          484    i.task3Entry        app.o
-    0x00000a08   0x00000020   Code   RO          485    i.task4Entry        app.o
-    0x00000a28   0x000000c2   Code   RO          378    i.taskInit          ttask.o
-    0x00000aea   0x00000100   Data   RO          230    .constdata          tbitmap.o
-    0x00000bea   0x00000002   PAD
-    0x00000bec   0x00000020   Data   RO          847    Region$$Table       anon$$obj.o
+    0x0000051c   0x0000001e   Code   RO          615    i.tMboxInit         tmbox.o
+    0x0000053a   0x00000002   PAD
+    0x0000053c   0x00000098   Code   RO          617    i.tMboxNotify       tmbox.o
+    0x000005d4   0x0000006c   Code   RO          618    i.tMboxWait         tmbox.o
+    0x00000640   0x00000006   Code   RO          278    i.tNodeInit         tlist.o
+    0x00000646   0x00000002   PAD
+    0x00000648   0x00000058   Code   RO          446    i.tSetSysTickPeriod  tcpu.o
+    0x000006a0   0x0000002c   Code   RO          430    i.tTaskDelay        ttime.o
+    0x000006cc   0x00000010   Code   RO            8    i.tTaskDelayedInit  main.o
+    0x000006dc   0x0000000c   Code   RO            9    i.tTaskEnterCritical  main.o
+    0x000006e8   0x0000000a   Code   RO           10    i.tTaskExitCritical  main.o
+    0x000006f2   0x00000002   PAD
+    0x000006f4   0x0000002c   Code   RO           11    i.tTaskHighestTaskReady  main.o
+    0x00000720   0x0000001c   Code   RO          188    i.tTaskRunFirst     switch.o
+    0x0000073c   0x0000004c   Code   RO           12    i.tTaskSched        main.o
+    0x00000788   0x00000034   Code   RO           15    i.tTaskSchedInit    main.o
+    0x000007bc   0x00000040   Code   RO           16    i.tTaskSchedReady   main.o
+    0x000007fc   0x0000003c   Code   RO           18    i.tTaskSchedUnReady  main.o
+    0x00000838   0x00000010   Code   RO          189    i.tTaskSwitch       switch.o
+    0x00000848   0x0000009c   Code   RO           19    i.tTaskSysTickHandler  main.o
+    0x000008e4   0x00000020   Code   RO           21    i.tTimeTaskWait     main.o
+    0x00000904   0x0000001c   Code   RO           22    i.tTimeTaskWakeUp   main.o
+    0x00000920   0x00000088   Code   RO          481    i.task1Entry        app.o
+    0x000009a8   0x00000044   Code   RO          482    i.task2Entry        app.o
+    0x000009ec   0x00000020   Code   RO          484    i.task3Entry        app.o
+    0x00000a0c   0x00000020   Code   RO          485    i.task4Entry        app.o
+    0x00000a2c   0x000000c2   Code   RO          378    i.taskInit          ttask.o
+    0x00000aee   0x00000100   Data   RO          230    .constdata          tbitmap.o
+    0x00000bee   0x00000002   PAD
+    0x00000bf0   0x00000020   Data   RO          847    Region$$Table       anon$$obj.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x00000028, Max: 0xffffffff, ABSOLUTE)
@@ -916,14 +917,14 @@ Image component sizes
         96         14          0          0          0      24893   tcpu.o
        256          0          0          0          0       3506   tevent.o
        128          0          0          0          0       4210   tlist.o
-       288         10          0          0          0       2470   tmbox.o
+       290         10          0          0          0       2470   tmbox.o
        194          0          0          0          0       1063   ttask.o
         44          4          0          0          0        521   ttime.o
 
     ----------------------------------------------------------------------
-      2324        272        482         40      25604      69546   Object Totals
+      2328        272        482         40      25604      69546   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         6          0          2          3          0          0   (incl. Padding)
+         8          0          2          3          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -970,15 +971,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2602        288        482         40      25704      67734   Grand Totals
-      2602        288        482         40      25704      67734   ELF Image Totals
-      2602        288        482         40          0          0   ROM Totals
+      2606        288        482         40      25704      67734   Grand Totals
+      2606        288        482         40      25704      67734   ELF Image Totals
+      2606        288        482         40          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 3084 (   3.01kB)
+    Total RO  Size (Code + RO Data)                 3088 (   3.02kB)
     Total RW  Size (RW Data + ZI Data)             25744 (  25.14kB)
-    Total ROM Size (Code + RO Data + RW Data)       3124 (   3.05kB)
+    Total ROM Size (Code + RO Data + RW Data)       3128 (   3.05kB)
 
 ==============================================================================
 
