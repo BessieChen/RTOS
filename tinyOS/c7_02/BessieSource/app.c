@@ -42,7 +42,7 @@ void task1Entry(void * param)
 	tSetSysTickPeriod(1);
 	
 	//7.1 测试:
-	tMboxInit(&mbox1, (void*)mbox1MsgBuffer, 20); //容量是20个
+	tMboxInit(&mbox1, mbox1MsgBuffer, 20); //容量是20个 //我替换了老师的:tMboxInit(&mbox1, (void*)mbox1MsgBuffer, 20); //todo
 
 
 	for(;;){	
@@ -89,7 +89,7 @@ void task2Entry(void * param)
 		if(err == tErrorNoError)//说明消息等到了
 		{
 			//消息的转换
-			uint32_t value = *(uint32_t*)msg2;
+			uint32_t value = (uint32_t)*(uint32_t*)msg2; //todo, 老师原有的: uint32_t value = *(uint32_t*)msg2;
 			task2Flag = value;
 			tTaskDelay(1);
 		}
