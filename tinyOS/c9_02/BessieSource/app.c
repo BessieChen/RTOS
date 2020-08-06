@@ -60,7 +60,7 @@ void task2Entry(void * param)
 	for(;;){
 		
 		//9.2 等待的事件: 第二位清零(0100), 必须全部满足, 也就是说, 一定要有第二位清零, 其余的清不清无所谓
-		tFlagGroupWait(&flagGroup1, TFLAGGROUP_CLEAR_ALL, 0x4, &resultFlags, 2); //等待的结果放在resultFlags中
+		tFlagGroupWait(&flagGroup1, TFLAGGROUP_CLEAR_ALL, 0x4, &resultFlags, 3); //等待的结果放在resultFlags中
 		
 		//9.2 等待的事件2: 第1和0位清零(0011), 必须全部满足, 也就是说, 一定要有第1和0位清零, 其余的清不清无所谓
 		tFlagGroupNoWaitGet(&flagGroup1, TFLAGGROUP_CLEAR_ALL, 0x3, &resultFlags);

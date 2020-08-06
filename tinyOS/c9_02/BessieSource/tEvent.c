@@ -180,6 +180,11 @@ tTask* tEventWakeUpSpecificTask(tEvent* eventECB, tTask* task, void* msg, uint32
 	{
 		tTimeTaskWakeUp(task);
 	}
+	else
+	{
+		tTimeTaskWakeUp(task);//9.2 byb 试一下, 不然我总会有错误, 加了就会不报错了, 因为我们的task2中的delaytick此时可能会变成0, 这样就可以苏醒它
+	}
+	
 	
 	//唤醒task的最后把task加入就绪队列中
 	//注意这里没有调度, 因为调度的操作是由其他函数会操作的
