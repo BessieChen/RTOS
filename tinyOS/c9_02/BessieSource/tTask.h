@@ -43,6 +43,9 @@ typedef struct _tTask
 		struct _tEvent* waitEvent; //5.2 等待那个ECB
 		void* eventMsg;//5.2 等待的数据的存放的位置, 用于邮箱
 		uint32_t waitEventResult; //5.2 等待的结果,例如错误码
+	
+		uint32_t waitFlagsType;//9.2 请求的事件类型
+		uint32_t eventFlags;//9.2 请求的事件标识
 		
 }tTask;
 

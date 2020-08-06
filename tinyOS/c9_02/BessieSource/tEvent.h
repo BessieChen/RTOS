@@ -29,6 +29,8 @@ tTask* tEventWakeUp(tEvent* event, void* msg, uint32_t result);//5.2 将task从ECB
 void tEventRemoveTask(tTask* task, void* msg, uint32_t result);//5.2 将task从ECB中强制移除
 uint32_t tEventRemoveAll(tEvent* eventECB, void* msg, uint32_t result);//5.3
 uint32_t tEventWaitCount(tEvent* eventECB);//5.3
+tTask* tEventWakeUpSpecificTask(tEvent* eventECB, tTask* task, void* msg, uint32_t result); //9.2
+
 
 
 #endif

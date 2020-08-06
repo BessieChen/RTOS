@@ -153,3 +153,41 @@ uint32_t tEventWaitCount(tEvent* eventECB)
 	return ret;
 }
 
+//9.2 将task从ECB的等待队列中唤醒, 注意, 这是指定某个task //疑问: 谁会调用 这个函数? 因为,等待事件如果发生,就是会唤醒指定的task,而不是唤醒第一个呀
+tTask* tEventWakeUpSpecificTask(tEvent* eventECB, tTask* task, void* msg, uint32_t result)//msg:会传递信息进去, result: 最后这个参数是告诉task他们从eventECB中移除的原因是什么
+{
+	tNode* node;
+	//临界区
+	uint32_t status = tTaskEnterCritical();
+	//9.2 删除指定的task
+	tListRemove(&eventECB->waitList, &task->linkNode);
+	
+	//找到对应的task
+	task = tNodeParentAddr(tTask, linkNode, node);
+	
+	//将task的状态修改
+	task->waitEvent = (tEvent*)0; //相当于认为task不需要等待事件了
+	task->eventMsg = msg;
+	task->waitEventResult = result;
+	
+	//将task的state修改, 也就是将所有的前面高16位都清空. 但是延时标记什么的应该还在
+	task->state &= ~TINYOS_TASK_WAIT_MASK; 				//(0xFF<<16) //5.2 也就是1111 1111 0000 0000, 所以取非之后的后16位就是0000 0000 1111 1111
+	
+	//假设之前的task处于延时队列中, 也就是之前设置了timeOut, 那么唤醒task的同时, 就要强制的! 把task从延时队列中清除
+	//如果delayticks == 0, 其他函数会把task从延时队列中删除. 总之都要删除
+	//如果delayticks == 0, 另一个可能就就是, 从来就没有加入过延时队列
+	if(task->delayTicks != 0)
+	{
+		tTimeTaskWakeUp(task);
+	}
+	
+	//唤醒task的最后把task加入就绪队列中
+	//注意这里没有调度, 因为调度的操作是由其他函数会操作的
+	tTaskSchedReady(task);
+	
+	tTaskExitCritical(status);
+	
+	return task;
+}
+
+

@@ -20,7 +20,7 @@ tTask tTask2;
 tTask tTask3; //3.7 为了测试, 我们需要将task2和task3的优先级设置为同一优先级
 tTask tTask4; //4.2 测试用
 
-//9.1 测试, 初始化
+//9.2 测试, 初始化
 tFlagGroup flagGroup1;
 
 //4.2 模拟对资源的释放
@@ -34,8 +34,8 @@ void task1Entry(void * param)
 {	
 	tSetSysTickPeriod(1);
 	
-	//9.1
-	tFlagGroupInit(&flagGroup1, 0x0);
+	//9.2
+	tFlagGroupInit(&flagGroup1, 0xFF); //16位都是1
 	
 
 	for(;;){	
@@ -44,6 +44,10 @@ void task1Entry(void * param)
 		tTaskDelay(1);
 		task1Flag = 1;
 		tTaskDelay(1);
+		
+		//9.2 通知操作: 某些位清零, 第二和第一位清零: 所以是0000 0110. 注意要清零的位标志成1
+		tFlagGroupNotify(&flagGroup1, 0, 0x6); //之后flag从初始化的FF变到F9(1111 1001)
+		
 	}
 	
 }
@@ -51,8 +55,15 @@ void task1Entry(void * param)
 void task2Entry(void * param) 
 {
 
-	
+	//9.2
+	uint32_t resultFlags = 0;
 	for(;;){
+		
+		//9.2 等待的事件: 第二位清零(0100), 必须全部满足, 也就是说, 一定要有第二位清零, 其余的清不清无所谓
+		tFlagGroupWait(&flagGroup1, TFLAGGROUP_CLEAR_ALL, 0x4, &resultFlags, 2); //等待的结果放在resultFlags中
+		
+		//9.2 等待的事件2: 第1和0位清零(0011), 必须全部满足, 也就是说, 一定要有第1和0位清零, 其余的清不清无所谓
+		tFlagGroupNoWaitGet(&flagGroup1, TFLAGGROUP_CLEAR_ALL, 0x3, &resultFlags);
 		
 		task2Flag = 0;
 		tTaskDelay(1);

@@ -4,3 +4,8 @@
 .\objects\tflaggroup.o: BessieSource\tLib.h
 .\objects\tflaggroup.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\tflaggroup.o: BessieSource\tTask.h
+.\objects\tflaggroup.o: BessieSource\tinyOS.h
+.\objects\tflaggroup.o: BessieSource\tConfig.h
+.\objects\tflaggroup.o: BessieSource\tSem.h
+.\objects\tflaggroup.o: BessieSource\tMbox.h
+.\objects\tflaggroup.o: BessieSource\tMemBlock.h
