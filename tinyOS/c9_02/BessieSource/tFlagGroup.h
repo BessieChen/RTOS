@@ -12,7 +12,7 @@ typedef struct _tFlagGroup
 }tFlagGroup;
 
 //9.2 宏定义: 希望哪种事件类型
-#define TFLAGGROUP_CLEAR				(0x0 << 0) //清空								00
+#define TFLAGGROUP_CLEAR				(0x0 << 0) //希望某一位标识是0								00
 #define TFLAGGROUP_SET					(0x1 << 0)	//设置							01
 #define TFLAGGROUP_ANY					(0x0 << 1)	//等待任意的标志位		00
 #define TFLAGGROUP_ALL					(0x1 << 1) //等待所有的标志位	10
